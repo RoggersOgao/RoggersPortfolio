@@ -1,0 +1,103 @@
+@import "../../mixin";
+
+.container{
+position:relative;
+
+.decoImg{
+        top:-17rem;
+        position:absolute;
+        width:100%;
+        height:auto;
+        z-index:4;       
+    }
+    .about{
+        width: 90%;
+        margin:0 auto;
+        display:flex;
+        align-items:center;
+        @include respond(tab-port){
+            flex-direction:column;
+        }
+        @include respond(phone){
+            width:95%;
+        }
+        &Left{
+            flex:1;
+            overflow:hidden;
+            border-right:.3px solid var(--border-grey);
+
+            @include respond(tab-port){
+                border:none;
+            }
+            @include respond(phone){
+                margin-bottom:15rem;
+            }
+            .img{
+                width:93%;
+                height:auto;
+                @include respond(phone){
+                    width:99%;
+                }
+            }
+
+        }
+        &Right{
+            flex:1;
+           h1{
+            width:80%;
+            margin:0 auto;
+            font-size:7rem;
+            font-weight:1000;
+            padding-bottom:4rem;
+            position:relative;
+            @include respond(phone){
+                width:95%;
+            }
+
+
+            &::before{
+                content:"";
+                width: 10rem;
+                height:10rem;
+                display:block;
+                background-color:rgba(white, .3);
+                position:absolute;
+                filter:blur(65px);
+                left:50%;
+                z-index:-1;
+            }
+            &::after{
+                content:"";
+                width:5rem;
+                display:block;
+                border:5px solid white;
+                border-radius:2rem;
+                position:absolute;
+                top:-2rem;
+            }
+           }
+           p{
+            width:80%;
+            margin:0 auto;
+            font-size: 1.4rem;
+            color:var(--text-white);
+            line-height:3rem;
+            font-weight:700;
+            @include respond(phone){
+                width:95%;
+            }
+            
+           }
+
+           .img{
+            position:absolute;
+            right:-15rem;
+            bottom:-15rem;
+            z-index:-1;
+            @include respond(phone){
+                bottom:-20rem;
+            }
+           }
+        }
+    }
+}

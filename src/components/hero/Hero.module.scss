@@ -1,0 +1,404 @@
+@import "../../mixin";
+
+
+.container {
+    position: relative;
+    min-height: 77.6rem;
+
+
+    .hero {
+        position: relative;
+        width: 52%;
+        margin: 0 auto;
+        border-left: .3px solid var(--border-grey);
+        border-right: .3px solid var(--border-grey);
+        display: flex;
+        min-height: 76.6rem;
+
+        @media only screen and (max-width:1340px) {
+            width: 60%;
+        }
+
+        @include respond(tab-land) {
+            flex-direction: column;
+            width: 60%;
+        }
+
+        @media only screen and (max-width:1094px) {
+            border-right: none;
+            padding-left: 1rem;
+        }
+
+        @media only screen and (max-width:697px) {
+            width: 70%;
+        }
+
+        @include respond(tab-port) {
+            width: 75%;
+        }
+
+        @include respond(phone) {
+            width: 95%;
+            padding-left: 2rem;
+        }
+
+        .heroText {
+            display: grid;
+            place-items: center;
+            position: absolute;
+            text-transform: uppercase;
+            font-weight: 1000;
+            font-size: 37.38rem;
+            line-height: 29rem;
+            height: 100%;
+            box-sizing: border-box;
+            transform: translateX(-2rem) translateY(3rem);
+            color: var(--background-text-grey);
+            z-index: -2;
+
+            @media only screen and (max-width:1300px) {
+                font-size: 35rem;
+            }
+
+            @media only screen and (max-width:1094px) {
+                display: none;
+            }
+        }
+
+        &Left {
+            flex: 1;
+            border-right: .3px solid var(--border-grey);
+            min-height: 73.6rem;
+            padding-top: 11.8rem;
+            overflow: hidden;
+
+
+            @include respond(tab-land) {
+                min-height: 5rem;
+                border: none;
+                overflow: visible;
+            }
+
+            p {
+                font-size: 1.3rem;
+                line-height: 2rem;
+                font-weight: 800;
+                color: var(--text-grey);
+                position: relative;
+
+                span {
+                    color: var(--green-color);
+                }
+
+                @media only screen and (max-width:1330px) {
+                    padding-left: 1rem;
+                    padding-top: 1rem;
+                }
+
+                @media only screen and (max-width:1094px) {
+                    color: white;
+
+                    &::after {
+                        content: "";
+                        width: 1rem;
+                        height: 1rem;
+                        border-radius: 50%;
+                        background-color: white;
+                        display: block;
+                        position: absolute;
+                        left: -1.6rem;
+                        top: .3rem;
+                    }
+
+                    &::before {
+                        content: "";
+                        width: 2rem;
+                        height: 2rem;
+                        border-radius: 50%;
+                        background-color: var(--green-color);
+                        display: block;
+                        position: absolute;
+                        left: -2.5rem;
+                        top: .3rem;
+                        filter: blur(8px);
+                    }
+                }
+
+                @include respond(phone) {
+                    &::after {
+                        content: "";
+                        width: 1rem;
+                        height: 1rem;
+                        border-radius: 50%;
+                        background-color: white;
+                        display: block;
+                        position: absolute;
+                        left: -2.55rem;
+                        top: .3rem;
+                    }
+
+                    &::before {
+                        content: "";
+                        width: 2rem;
+                        height: 2rem;
+                        border-radius: 50%;
+                        background-color: var(--green-color);
+                        display: block;
+                        position: absolute;
+                        left: -2.5rem;
+                        top: .3rem;
+                        filter: blur(8px);
+                    }
+                }
+
+
+
+            }
+        }
+
+        &Right {
+            flex: 2;
+            overflow: hidden;
+            position: relative;
+
+            @media only screen and (max-width:1094px) {
+                overflow: visible;
+            }
+
+            .lineRight {
+                position: absolute;
+                min-height: 76.6rem;
+                display: block;
+                border-right: .3px solid var(--border-grey);
+                left: 50%;
+                transform: translateX(-50%);
+
+                @media only screen and (max-width:1300px) {
+                    font-size: 35rem;
+                }
+
+                @include respond(tab-land) {
+                    display: none;
+                }
+            }
+
+            &Text {
+                .text {
+                    padding-top: 21rem;
+                    position: relative;
+                    // z-index:3;
+                    font-weight: 1000;
+                    font-size: 12.4rem;
+                    line-height: 11.4rem;
+                    transform: translateX(-.7rem);
+
+                    @include respond(tab-land) {
+                        padding-left: 1rem;
+                        padding-top: 0;
+                        font-size: 11rem;
+                        text-align: left;
+                    }
+
+                    @include respond(phone) {
+                        font-size: 8rem;
+                        line-height: 8rem;
+                        padding-bottom: 4rem;
+                    }
+
+                    @include respond(sm-phone) {
+                        font-size: 6rem;
+                    }
+                }
+
+                .moreInfo {
+                    font-size: 1.3rem;
+                    line-height: 2rem;
+                    font-weight: 800;
+                    color: var(--text-grey);
+                    padding-top: 3rem;
+                    position: relative;
+
+
+                    span {
+                        color: var(--green-color)
+                    }
+
+                    @media only screen and (max-width:1300px) {
+                        text-align: right;
+                        padding-right: 1rem;
+                        padding-left: 1rem;
+                    }
+
+                    @media only screen and (max-width:1094px) {
+                        color: white;
+                        text-align: left;
+
+                        &::after {
+                            content: "";
+                            width: 1rem;
+                            height: 1rem;
+                            border-radius: 50%;
+                            background-color: white;
+                            display: block;
+                            position: absolute;
+                            left: -1.6rem;
+                            top: 2.3rem;
+                        }
+
+                        &::before {
+                            content: "";
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: 50%;
+                            background-color: var(--green-color);
+                            display: block;
+                            position: absolute;
+                            left: -1.6rem;
+                            top: 2.3rem;
+                            filter: blur(8px);
+                        }
+                    }
+
+                    @include respond(phone) {
+                        &::after {
+                            content: "";
+                            width: 1rem;
+                            height: 1rem;
+                            border-radius: 50%;
+                            background-color: white;
+                            display: block;
+                            position: absolute;
+                            left: -2.6rem;
+                            top: 2.3rem;
+                        }
+
+                        &::before {
+                            content: "";
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: 50%;
+                            background-color: var(--green-color);
+                            display: block;
+                            position: absolute;
+                            left: -2.5rem;
+                            top: 2.3rem;
+                            filter: blur(8px);
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    .sphere1 {
+        position: absolute;
+        left: -13rem;
+        top: -1.6rem;
+        z-index: -1;
+
+    }
+
+    .sphere2 {
+        position: absolute;
+        right: -28rem;
+        top: 10rem;
+        z-index: -1;
+
+        @include respond(phone) {
+            right: -34rem;
+            top: 5rem;
+        }
+    }
+
+    .sphere3 {
+        position: absolute;
+        bottom: 10rem;
+        left: 12rem;
+
+        .img {
+            width: 10rem;
+            height: auto;
+            filter: grayscale(100%) brightness(80%);
+
+        }
+
+        @media only screen and (max-width:1094px) {
+            display: none;
+        }
+
+    }
+
+    .neon {
+        position: absolute;
+        top: 20%;
+        left: 20rem;
+
+        .img {
+            width: 19rem;
+            height: auto;
+        }
+
+    }
+
+    .neon1 {
+        position: absolute;
+        top: 8%;
+        right: 41%;
+        z-index: 1;
+
+        .img {
+            width: 15rem;
+            height: auto;
+        }
+    }
+
+    .bottomGrad {
+        height: 18rem;
+        display: block;
+        background: linear-gradient(to top, var(--background-grey), #1e1e1ea2, transparent);
+        position: relative;
+        z-index: 4;
+        transform: translateY(-10rem);
+
+        @include respond(phone) {
+            height: 5rem;
+            transform: translateY(0);
+        }
+    }
+
+    .socialIcons {
+        display: flex;
+        gap: 2rem;
+        flex-direction: column;
+        position: absolute;
+        top: 60%;
+        transform: translateY(-50%);
+        margin-left: 5rem;
+
+        @include respond(tab-port) {
+            flex-direction: row;
+            top: 75%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-left: 0;
+
+        }
+
+        @include respond(phone) {
+            top: 83%;
+        }
+
+
+        i {
+            font-size: 1.8rem;
+            color: var(--green-color);
+
+            &:hover {
+                color: white;
+                cursor: pointer;
+            }
+        }
+    }
+}
