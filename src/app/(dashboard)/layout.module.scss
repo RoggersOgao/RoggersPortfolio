@@ -1,0 +1,19 @@
+@import "../../mixin";
+.container{
+    display:flex;
+    width:100%;
+    min-height:110vh;
+    .left{
+        position:sticky;
+        height: 100vh;
+        z-index:10;
+    }
+    .right{
+        width:100%;
+        padding:5rem 5rem 2rem 5rem;
+        @include respond(phone){
+            padding: 5rem 0 2rem 0;
+            text-align: center;
+        }
+    }
+}

@@ -19,19 +19,19 @@ function SideNav() {
         <aside>
           <nav>
             <ul className={styles.list}>
-              <Tooltip title="home" position='right'>
+              <Tooltip title="home" position='right' style={{fontSize:"1.5rem"}}>
                 <li>
-                  <Link href="" className={styles.link}><GiModernCity className={styles.icon} /></Link>
+                  <Link href="/dashboard" className={styles.link}><GiModernCity className={styles.icon} /></Link>
                 </li>
               </Tooltip>
               <Tooltip title="projects" position='right'>
                 <li>
-                  <Link href="" className={styles.link}><GiCube className={styles.icon} /></Link>
+                  <Link href="/dashboard/projects" className={styles.link}><GiCube className={styles.icon} /></Link>
                 </li>
               </Tooltip>
               <Tooltip title="settings" position='right'>
                 <li>
-                  <Link href="" className={styles.link}><AiFillSetting className={styles.icon} /></Link>
+                  <Link href="/dashboard/settings" className={styles.link}><AiFillSetting className={styles.icon} /></Link>
                 </li>
               </Tooltip>
               <Tooltip title="logout" position='right'>

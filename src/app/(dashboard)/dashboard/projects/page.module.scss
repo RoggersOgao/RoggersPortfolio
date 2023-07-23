@@ -1,5 +1,4 @@
-@import "node_modules/spinners-react/lib/SpinnerDiamond.css";
-@import "../../../mixin";
+@import "../../../../mixin";
 .loader {
     width: 100%;
     height: 100vh;
@@ -10,7 +9,7 @@
 .container{
     display:flex;
     width:100%;
-    overflow-x:hidden;
+    min-height:110vh;
     .left{
         
     }

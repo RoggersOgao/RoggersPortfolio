@@ -44,6 +44,7 @@ import { SpinnerDiamond } from 'spinners-react'
 import { getServerSession } from "next-auth/next"
 import { options } from "@/app/api/auth/[...nextauth]/options"
 import { fetchGithubUsers, fetchGoogleUsers, fetchUser } from "@/dashboardComponents/contexts/dashHomeContext/DashActions"
+import { Suspense } from "react"
 
 export default async function Page() {
   const session = await getServerSession(options)
@@ -67,10 +68,12 @@ export default async function Page() {
   return session ? (<div>
       <div className={styles.container}>
         <div className={styles.left}>
-          <SideNav />
+          {/* <SideNav /> */}
         </div>
         <div className={styles.right}>
+          <Suspense fallback="loading...">
           <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers}/>
+          </Suspense>
         </div>
       </div>
   

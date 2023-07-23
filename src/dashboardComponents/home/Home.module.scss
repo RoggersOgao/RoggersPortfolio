@@ -1,6 +1,7 @@
+@import "../../mixin";
 .home{
     width:100%;
-    height:200vh;
+    min-height:100vh;
     &Top{
         .top{
             background-color:var(--border-grey);
@@ -44,6 +45,10 @@
         margin-top:5rem;
         gap:2rem;
         min-height:40rem;
+
+        @include respond(tab-port){
+            flex-direction:column;
+        }
         
         .profile{
             flex:2;
