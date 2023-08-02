@@ -8,29 +8,37 @@ import { PiUploadLight } from 'react-icons/pi'
 import { GrFormClose } from 'react-icons/gr'
 
 // const imageValidator = (file) => {
-  
-//     const blob = new Blob([file], { type: file.type });
-//     const reader = new FileReader();
-//     reader.readAsDataURL(blob);
+//   const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
 
-//     while (reader.readyState !== 2) {
-//       // Wait for the FileReader to finish reading the file
-//     }
+//   if (!allowedTypes.includes(file.type)) {
+//     return false;
+//   }
 
-//     const dataURL = reader.result;
+//   const blob = new Blob([file], { type: file.type });
+//   const reader = new FileReader();
 
-//     const img = document.createElement("img");
-//     img.src = dataURL;
+//   reader.readAsDataURL(blob);
 
-//     if (img.width === 0 || img.height === 0) {
-//       return {
-//         code: "file-not-image",
-//           message: "This file is not an image",
+//   return new Promise((resolve) => {
+//     reader.onloadend = () => {
+//       const dataURL = reader.result;
+
+//       const img = document.createElement("img");
+//       img.src = dataURL;
+
+//       img.onload = () => {
+//         if (img.width === 0 || img.height === 0) {
+//           resolve({
+//             code: "file-not-image",
+//             message: "This file is not an image",
+//           });
+//         } else {
+//           resolve(null);
+//         }
 //       };
-//     }
-//     return null;
-
-//  };
+//     };
+//   });
+// };
 
 
 function Dropzone() {
@@ -109,7 +117,7 @@ const removeRejected = (name) => {
         ) : (
             <>
             <i><PiUploadLight /></i>
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p>Drag and drop some files here, or click to select files (2 Files)</p>
           </>
         )}
       </div>
@@ -170,7 +178,7 @@ const removeRejected = (name) => {
                         </div>
                         </div>
                         <div className={styles.right}>
-                            <button onClick={()=> removeRejected(file.name)}><GrFormClose /></button>
+                            <button onClick={()=> removeRejected(file.name)}><GrFormClose className={styles.icon} />remove</button>
                         </div>
                         </div>
                     </li>
