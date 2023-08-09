@@ -3,7 +3,8 @@ import styles from "./Project.module.scss"
 import Card from './card/Card'
 import Link from 'next/link'
 
-function Project() {
+function Project({project}) {
+
   return (
     <div className={styles.container}>
       <div className={styles.containerLeft}>
@@ -20,16 +21,21 @@ function Project() {
         </div>
         <div className={styles.bottom}>
           <div className={styles.card}>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {project?.projects?.map((item,index)=>(
+              <div key={index}>
+                <Card project={item}/>
+              </div>
+            ))}
           </div>
         </div>
       </div>
       <div className={styles.containerRight}>
       <ul>
-        <li>photography website</li>
+      {project?.projects?.map((item,index)=>(
+              <li key={index}>
+                {item.projectName}
+              </li>
+            ))}
       </ul>
       </div>
     </div>

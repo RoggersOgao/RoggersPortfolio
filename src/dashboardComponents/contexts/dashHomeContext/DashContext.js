@@ -1,3 +1,4 @@
+"use client"
 import { createContext, useReducer } from "react";
 import { DashReducer } from "./DashReducer";
 const DashContext = createContext()

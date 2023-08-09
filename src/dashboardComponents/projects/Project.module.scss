@@ -68,7 +68,7 @@
             li{
                 font-size:1.3rem;
                 font-weight: 900;
-                padding:.2rem 1rem .2rem 2rem;
+                padding:.2rem 1rem 1rem 2rem;
                 position:relative;
                 color:var(--blue-color);
                 &::before{
@@ -80,6 +80,7 @@
                     background-color:grey;
                     border-radius:50%;
                     left:-.4rem;
+                    top:.5rem;
                 }
             }
         }

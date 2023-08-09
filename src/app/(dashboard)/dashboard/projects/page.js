@@ -6,13 +6,16 @@ import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { Suspense } from "react";
 import Project from "@/dashboardComponents/projects/Project";
-
+import { fetchProject } from "@/dashboardComponents/contexts/projectContext/projectActions";
 
 export default async function Page(){
     const session = await getServerSession(options)
     if(!session){
         redirect("/login")
     }
+
+const project = await fetchProject()
+
 
     return session ? (
         <div className={styles.container}>
@@ -21,7 +24,7 @@ export default async function Page(){
             </div>
             <div className={styles.right}>
             <Suspense fallback="loading...">
-                <Project />
+                <Project project={project || []}/>
             </Suspense>
             </div>
         </div>

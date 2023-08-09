@@ -41,9 +41,11 @@ import { GrFormClose } from 'react-icons/gr'
 // };
 
 
-function Dropzone({files, setFiles}) {
+function Dropzone({files, setFiles, displayFiles}) {
 
   const [rejected, setRejected] = useState([])
+
+  files = files.length === 0 ? displayFiles : files;
 
 //   generating a preview url for uploaded images
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {

@@ -1,30 +1,54 @@
 "use client";
-import React, { useState, useRef } from "react";
-import styles from "./NewProjectForm.module.scss";
+import React, { useState, useRef, useEffect } from "react";
+import styles from "./EditProjectForm.module.scss";
 import Dropzone from "./dropzone/Dropzone";
 import { tech } from "./technologies";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { uploadData } from "@/dashboardComponents/contexts/projectContext/projectActions";
+import {
+  updateProject,
+  uploadData,
+} from "@/dashboardComponents/contexts/projectContext/projectActions";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { VscError } from "react-icons/vsc";
 import { PiSpinnerLight } from "react-icons/pi";
-import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const animatedComponents = makeAnimated();
 
-function NewProjectForm() {
+function EditProjectForm({ projectData }) {
   const [form, setForm] = useState({});
   const [files, setFiles] = useState([]);
-  const [techl, setTechl] = useState([]);
+  const [displayFiles, setDisplayFiles] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
+  const [techl, setTechl] = useState([]);
   const formRef = useRef();
   const selectRef = useRef(null);
   const router = useRouter();
+
+  useEffect(() => {
+    setForm({
+      projectName: projectData.projectName,
+      projectDescription: projectData.projectDescription,
+      projectLink: projectData.projectLink,
+    });
+    setTechl([...techl, ...projectData.technologies]);
+    const uniqueFiles = new Set([...files]);
+    setFiles([...uniqueFiles]);
+    const uniqueFiles1 = new Set([
+      ...files,
+      ...projectData.coverPhoto,
+      ...projectData.projectPhoto,
+    ]);
+    setDisplayFiles([...uniqueFiles1]);
+  }, []);
+
+  // console.log(files)
+  // using useEffect to get data
 
   const setField = (value, field) => {
     setForm({
@@ -58,13 +82,11 @@ function NewProjectForm() {
         }
         break;
       case "technologies":
-        if (!value.length) {
+        if (value.length === 0) {
           errors.technologies = "Languages used cannot be empty!";
         } else {
           delete errors.technologies;
         }
-        break;
-
         break;
       case "projectLink":
         if (!value) {
@@ -81,15 +103,20 @@ function NewProjectForm() {
     setFormErrors(errors);
   };
 
-  console.log(formErrors);
   const handleSelect = (e) => {
     setTechl(e);
   };
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (files.length > 2 || files.length < 2)
-      alert("Only 2 images are required!");
+    if (
+      (files.length > 0 && files.length !== 2) ||
+      (files.length === 0 && displayFiles.length !== 2)
+    ) {
+      alert("Please upload exactly 2 images.");
+      return;
+    }
+
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("files", file);
@@ -100,12 +127,31 @@ function NewProjectForm() {
       formData.append("technologies[]", JSON.stringify(file));
     });
     formData.append("projectLink", form.projectLink);
+
+    // Identifying which images are already associated with the project
+    const existingImageFilenames = [
+      ...projectData.coverPhoto.map((img) => img.original_filename),
+      ...projectData.projectPhoto.map((img) => img.original_filename),
+    ];
+
+    // console.log("existingImageFilenames:", existingImageFilenames);
+    // console.log("files:", files);
+    const newFiles = files.filter(
+      (file) => !existingImageFilenames.includes(file.name)
+    );
+    console.log("newFiles:", newFiles);
+
     try {
+      // console.log("newFiles:", newFiles);
+      // console.log("hasNewImages:", newFiles.length > 0);
       setIsLoading(true);
-      await uploadData(formData);
+      await updateProject(projectData._id, formData, newFiles.length > 0);
+
       setForm([]);
       setFiles([]);
+      setDisplayFiles([]);
       selectRef.current.clearValue();
+      setTechl([]);
       formRef.current.reset();
       setIsLoading(false);
       router.refresh();
@@ -136,8 +182,10 @@ function NewProjectForm() {
       </h1>
       <div className={styles.formContainer}>
         <div className={styles.title}>
-          <h1>New Project</h1>
-          <button>Back</button>
+          <h1>Update Project</h1>
+          <Link href="/dashboard/projects">
+            <button>Back</button>
+          </Link>
         </div>
         <form className={styles.form} onSubmit={handleUpload} ref={formRef}>
           <div className={styles.formGroup}>
@@ -147,8 +195,8 @@ function NewProjectForm() {
               id="name"
               autoComplete="off"
               placeholder="Name"
-              value={form.projectName || ""}
               required
+              value={form.projectName || ""}
               onChange={(e) => {
                 setField("projectName", e.target.value),
                   validateField("projectName", e.target.value);
@@ -173,8 +221,8 @@ function NewProjectForm() {
               id="description"
               autoComplete="off"
               placeholder="Description"
-              value={form.projectDescription || ""}
               required
+              value={form.projectDescription || ""}
               onChange={(e) => {
                 setField("projectDescription", e.target.value),
                   validateField("projectDescription", e.target.value);
@@ -199,10 +247,10 @@ function NewProjectForm() {
               ref={selectRef}
               closeMenuOnSelect={false}
               components={animatedComponents}
-              value={techl}
               options={tech}
-              required
               isMulti
+              required
+              value={techl}
               onChange={(e) => {
                 handleSelect(e), validateField("technologies", e);
               }}
@@ -294,12 +342,17 @@ function NewProjectForm() {
               The first image will be used as the cover photo the second will be
               used as the project display
             </p>
-            <Dropzone files={files} setFiles={setFiles} />
+            <Dropzone
+              files={files}
+              setFiles={setFiles}
+              displayFiles={displayFiles}
+              setDisplayFiles={setDisplayFiles}
+            />
           </div>
           <div className={styles.formGroup}>
             <div className={styles.btnGroup}>
               <button type="submit">
-                {isLoading ? <PiSpinnerLight /> : "Publish"}
+                {isLoading ? <PiSpinnerLight /> : "Publish Edited Post"}
               </button>
             </div>
           </div>
@@ -309,4 +362,4 @@ function NewProjectForm() {
   );
 }
 
-export default NewProjectForm;
+export default EditProjectForm;
