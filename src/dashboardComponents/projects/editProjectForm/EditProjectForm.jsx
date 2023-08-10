@@ -154,7 +154,7 @@ function EditProjectForm({ projectData }) {
       setTechl([]);
       formRef.current.reset();
       setIsLoading(false);
-      router.refresh();
+      // router.refresh();
       toast.success("Project added successfully!", {
         position: "top-right",
         autoClose: 5000,
@@ -165,6 +165,7 @@ function EditProjectForm({ projectData }) {
         progress: undefined,
         theme: "dark",
       });
+
       router.push("/dashboard/projects");
     } catch (err) {
       console.log(err);

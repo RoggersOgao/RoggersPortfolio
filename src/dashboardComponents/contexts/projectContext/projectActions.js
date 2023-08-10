@@ -150,18 +150,13 @@ export const uploadData = async (formData) => {
     });
     // console.log(parsedTechnologies);
 
-    // save photo files to temp folder
-    const newFiles = await uploadPhotoToLocalStorage(formData);
-    // console.log(newFiles)
-
-    // delay(2000);
-    //upload to the cloud after saving the photo to the temp folder
-    const photos = await uploadPhotosToCloudinary(newFiles);
-    // console.log(photos);
+    const [newFiles, photos] = await Promise.all([
+      uploadPhotoToLocalStorage(formData),
+      uploadPhotosToCloudinary(newFiles),
+    ]);;
 
     // Delete the photos uploaded in the temp folder after successully uploading to cloudinary
     await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
-    revalidatePath("/");
 
     const response = await proj.post("/api/project", {
       projectName: formData.get("projectName"),
@@ -175,12 +170,12 @@ export const uploadData = async (formData) => {
 
     // console.log("uploaded successfully!", response);
 
-    NextResponse.json(
+    return NextResponse.json(
       { message: "uploaded Successfully", response },
       { status: 200 }
     );
   } catch (error) {
-    NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 };
 

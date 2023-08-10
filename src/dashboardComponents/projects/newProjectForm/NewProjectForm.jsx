@@ -108,7 +108,7 @@ function NewProjectForm() {
       selectRef.current.clearValue();
       formRef.current.reset();
       setIsLoading(false);
-      router.refresh();
+      // router.refresh();
       toast.success("Project added successfully!", {
         position: "top-right",
         autoClose: 5000,

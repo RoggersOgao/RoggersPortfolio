@@ -139,7 +139,7 @@ function Card({ project }) {
               <span>
                 <AiOutlineLink />
               </span>
-              <p>https://github.com/RoggersOgao/Photography</p>
+              <p>{project.projectLink}</p>
             </div>
           </div>
         </div>
