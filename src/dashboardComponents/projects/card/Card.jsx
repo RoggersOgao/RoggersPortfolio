@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./Card.module.scss";
 import Image from "next/image";
 import { GiCube } from "react-icons/gi";
@@ -17,7 +17,17 @@ import Link from "next/link";
 import { deleteProject } from "@/dashboardComponents/contexts/projectContext/projectActions";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProjectContext from "@/dashboardComponents/contexts/projectContext/ProjectContext";
+
+
+import { addProjectPhoto, toogleProjectPhoto } from "@/dashboardComponents/contexts/projectContext/dispatchActions";
+
+
+
+
 function Card({ project }) {
+
+  const { state, dispatch } = useContext(ProjectContext)
   const coverPhoto = project.coverPhoto.map((item) => item.secure_url);
   const coverPhotoPublicId = project.coverPhoto.map((item) => item.public_id);
   const projectPhoto = project.projectPhoto.map((item) => item.secure_url);
@@ -68,7 +78,17 @@ function Card({ project }) {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <div className={styles.cardTop}>
+        <div className={styles.cardTop}
+        onClick={() => {
+         try {
+           dispatch(addProjectPhoto(projectPhoto[0]));
+           dispatch(toogleProjectPhoto());
+         } catch (error) {
+          console.log(error)
+         }
+        }}
+        
+        >
           <Image
             src={coverPhoto[0]}
             alt="project called Image photography"
@@ -76,6 +96,7 @@ function Card({ project }) {
             height={400}
             quality={100}
             className={styles.img}
+           
           />
         </div>
         <div className={styles.cardBottom}>

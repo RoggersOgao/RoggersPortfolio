@@ -1,16 +1,16 @@
 export const ProjectReducer = (state, action) => {
-  switch (action.type) {
+  switch (action?.type) {
     case "FETCH_PROJECT":
       return {
         ...state,
         projects: action.payload,
-        isLoading: true,
+        isLoading: false,
       };
     case "ADD_PROJECT":
       return {
         ...state,
         projects: [...state.projects, action.payload],
-        isLoading: true,
+        isLoading: fasle,
       };
     case "UPDATE_PROJECT":
       const updatedproject = state.projects.map((project) =>
@@ -20,7 +20,7 @@ export const ProjectReducer = (state, action) => {
       return {
         ...state,
         projects: updatedproject,
-        isLoading: true,
+        isLoading: false,
       };
     case "DELETE_PROJECT":
       const filteredprojects = state.projects.filter(
@@ -29,14 +29,33 @@ export const ProjectReducer = (state, action) => {
       return {
         ...state,
         projects: filteredprojects,
-        isLoading: true,
+        isLoading: false,
       };
 
     case "CLEAR_PROJECT":
       return {
         ...state,
         projects: [],
+        isLoading:false
       };
+      
+    case "ADD_PROJECT_PHOTO":
+      return{
+        ...state,
+        projectPhoto:[...state.projectPhoto, action.payload],
+        isLoading:false
+      }
+      case "IS_VISIBLE":
+        return {
+          ...state,
+          isVisible: true,
+          isLoading: false
+        }      
+      case "IS_NOT_VISIBLE":
+        return{
+          ...state,
+          isVisible: false
+        }
     default:
       return state;
   }

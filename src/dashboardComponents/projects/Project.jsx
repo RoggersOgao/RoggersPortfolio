@@ -1,16 +1,16 @@
-"use client"
-import React,{useEffect} from 'react'
-import styles from "./Project.module.scss"
-import Card from './card/Card'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+"use client";
+import React, { useEffect } from "react";
+import styles from "./Project.module.scss";
+import Card from "./card/Card";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-function Project({project}) {
-  const router = useRouter()
+function Project({ project }) {
+  const router = useRouter();
 
-  useEffect(()=>{
-    router.refresh()
-  },[])
+  useEffect(() => {
+    router.refresh();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -22,31 +22,31 @@ function Project({project}) {
           <div className={styles.smTitle}>
             <h1>Projects</h1>
             <div className={styles.buttonCont}>
-              <Link href="/dashboard/projects/newProject"><button>Add new Project</button></Link>
+              <Link href="/dashboard/projects/newProject">
+                <button>Add new Project</button>
+              </Link>
             </div>
-            </div>
+          </div>
         </div>
         <div className={styles.bottom}>
           <div className={styles.card}>
-            {project?.projects?.map((item,index)=>(
+            {project?.projects?.map((item, index) => (
               <div key={index}>
-                <Card project={item}/>
+                <Card project={item} />
               </div>
             ))}
           </div>
         </div>
       </div>
       <div className={styles.containerRight}>
-      <ul>
-      {project?.projects?.map((item,index)=>(
-              <li key={index}>
-                {item.projectName}
-              </li>
-            ))}
-      </ul>
+        <ul>
+          {project?.projects?.map((item, index) => (
+            <li key={index}>{item.projectName}</li>
+          ))}
+        </ul>
       </div>
     </div>
-  )
+  );
 }
 
-export default Project
+export default Project;

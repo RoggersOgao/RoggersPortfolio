@@ -24,36 +24,6 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-export const dsAddProject = (item) => {
-  return {
-    type: "ADD_PROJECT",
-    payload: item,
-  };
-};
-export const dsFetchProject = (item) => {
-  return {
-    type: "FETCH_PROJECT",
-    payload: item,
-  };
-};
-
-export const dsUpdateProject = (item) => {
-  return {
-    type: "UPDATE_PROJECT",
-    payload: item,
-  };
-};
-export const dsRemoveProject = (itemId) => {
-  return {
-    type: "REMOVE_PROJECT",
-    payload: item,
-  };
-};
-export const dsClearProject = () => {
-  return {
-    type: "CLEAR_PROJECT",
-  };
-};
 
 export const fetchProject = async () => {
   try {
