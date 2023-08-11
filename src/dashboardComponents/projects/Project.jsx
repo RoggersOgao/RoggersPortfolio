@@ -1,9 +1,16 @@
-import React from 'react'
+"use client"
+import React,{useEffect} from 'react'
 import styles from "./Project.module.scss"
 import Card from './card/Card'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 function Project({project}) {
+  const router = useRouter()
+
+  useEffect(()=>{
+    router.refresh()
+  },[])
 
   return (
     <div className={styles.container}>

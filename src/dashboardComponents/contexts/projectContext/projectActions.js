@@ -138,7 +138,6 @@ async function uploadPhotosToCloudinary(newFiles) {
 export const uploadData = async (formData) => {
   try {
     const technologiesArray = formData.getAll("technologies[]");
-    // console.log(technologiesArray);
     const parsedTechnologies = [];
     technologiesArray.forEach((jsonString) => {
       try {
@@ -148,17 +147,14 @@ export const uploadData = async (formData) => {
         console.error("Parsing error:", error);
       }
     });
-    // console.log(parsedTechnologies);
 
-    const [newFiles, photos] = await Promise.all([
-      uploadPhotoToLocalStorage(formData),
-      uploadPhotosToCloudinary(newFiles),
-    ]);;
+    const newFiles = await uploadPhotoToLocalStorage(formData); // Make sure this function is defined and working correctly
+    const photos = await uploadPhotosToCloudinary(newFiles); // Make sure this function is defined and working correctly
 
-    // Delete the photos uploaded in the temp folder after successully uploading to cloudinary
+    // Delete the photos uploaded in the temp folder after successfully uploading to Cloudinary
     await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
 
-    const response = await proj.post("/api/project", {
+    const response = await axios.post("http://localhost:3000/api/project", {
       projectName: formData.get("projectName"),
       projectDescription: formData.get("projectDescription"),
       technologies: parsedTechnologies,
@@ -166,16 +162,18 @@ export const uploadData = async (formData) => {
       coverPhoto: photos[0],
       projectPhoto: photos[1],
     });
-    // Both project name and project link are unique, proceed to create and save the new project
 
-    // console.log("uploaded successfully!", response);
+    console.log("Uploaded successfully!", response.data);
 
-    return NextResponse.json(
-      { message: "uploaded Successfully", response },
-      { status: 200 }
-    );
+    return response.data; // Return the response data
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Upload error:", error);
+
+    // Return an error response
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
   }
 };
 
@@ -224,7 +222,7 @@ export const fetchProjectById = async (id) => {
   }
 };
 
-export const updateProject = async (id, formData, hasNewImages = false) => {
+export const updateProject = async (id, formData, hasNewImages = false, coverPhoto_public_id,projectPhoto_public_id) => {
   try {
     const technologiesArray = formData.getAll("technologies[]");
     // console.log(technologiesArray);
@@ -245,6 +243,8 @@ export const updateProject = async (id, formData, hasNewImages = false) => {
     if (hasNewImages) {
       const newFiles = await uploadPhotoToLocalStorage(formData);
       photos = await uploadPhotosToCloudinary(newFiles);
+      cloudinary.v2.uploader.destroy(coverPhoto_public_id);
+    cloudinary.v2.uploader.destroy(projectPhoto_public_id);
       await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
     }
 
@@ -260,10 +260,10 @@ export const updateProject = async (id, formData, hasNewImages = false) => {
       ...(hasNewImages && { coverPhoto: photos[0], projectPhoto: photos[1] }),
     });
 
-    // console.log("updated successfully!", response);
+    console.log("updated successfully!", response);
 
     NextResponse.json(
-      { message: "updated Successfully", response },
+      { message: "updated Successfully" },
       { status: 200 }
     );
   } catch (err) {

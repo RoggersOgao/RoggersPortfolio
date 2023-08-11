@@ -16,6 +16,7 @@ import { VscError } from "react-icons/vsc";
 import { PiSpinnerLight } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GiConsoleController } from "react-icons/gi";
 
 const animatedComponents = makeAnimated();
 
@@ -106,6 +107,8 @@ function EditProjectForm({ projectData }) {
   const handleSelect = (e) => {
     setTechl(e);
   };
+  const coverPhotoPublic_id = projectData.coverPhoto.map((img)=> img.public_id)
+  const projectPhotoPublic_id = projectData.projectPhoto.map((img)=> img.public_id)
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -145,7 +148,8 @@ function EditProjectForm({ projectData }) {
       // console.log("newFiles:", newFiles);
       // console.log("hasNewImages:", newFiles.length > 0);
       setIsLoading(true);
-      await updateProject(projectData._id, formData, newFiles.length > 0);
+      
+      await updateProject(projectData._id, formData, newFiles.length > 0, coverPhotoPublic_id[0], projectPhotoPublic_id[0]);
 
       setForm([]);
       setFiles([]);
@@ -175,13 +179,13 @@ function EditProjectForm({ projectData }) {
 
   return (
     <div className={styles.container}>
-      <ToastContainer style={{ fontSize: "14px" }} />
       <h1 className={styles.projectNameBack}>
         Pro
         <br />
         ject
       </h1>
       <div className={styles.formContainer}>
+      <ToastContainer style={{ fontSize: "14px" }} />
         <div className={styles.title}>
           <h1>Update Project</h1>
           <Link href="/dashboard/projects">

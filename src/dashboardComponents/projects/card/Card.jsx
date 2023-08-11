@@ -38,7 +38,7 @@ function Card({ project }) {
     if (userConfirmed) {
       try {
         await deleteProject(id, coverId, projectId);
-
+        alert("deleted successfully!")
         toast.success("Project deleted successfully", {
           position: "top-right",
           autoClose: 5000,

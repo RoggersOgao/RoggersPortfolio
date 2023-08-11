@@ -108,7 +108,6 @@ function NewProjectForm() {
       selectRef.current.clearValue();
       formRef.current.reset();
       setIsLoading(false);
-      // router.refresh();
       toast.success("Project added successfully!", {
         position: "top-right",
         autoClose: 5000,
@@ -128,13 +127,13 @@ function NewProjectForm() {
 
   return (
     <div className={styles.container}>
-      <ToastContainer style={{ fontSize: "14px" }} />
       <h1 className={styles.projectNameBack}>
         Pro
         <br />
         ject
       </h1>
       <div className={styles.formContainer}>
+      <ToastContainer style={{ fontSize: "14px" }} />
         <div className={styles.title}>
           <h1>New Project</h1>
           <button>Back</button>
