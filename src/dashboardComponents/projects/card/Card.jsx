@@ -20,17 +20,16 @@ import "react-toastify/dist/ReactToastify.css";
 import ProjectContext from "@/dashboardComponents/contexts/projectContext/ProjectContext";
 
 
-import { addProjectPhoto, toogleProjectPhoto } from "@/dashboardComponents/contexts/projectContext/dispatchActions";
+import { AddSingleProject, toogleProjectPhoto } from "@/dashboardComponents/contexts/projectContext/dispatchActions";
 
 
 
 
-function Card({ project }) {
+function Card({ project, id }) {
 
   const { state, dispatch } = useContext(ProjectContext)
   const coverPhoto = project.coverPhoto.map((item) => item.secure_url);
   const coverPhotoPublicId = project.coverPhoto.map((item) => item.public_id);
-  const projectPhoto = project.projectPhoto.map((item) => item.secure_url);
   const projectPhotoPublicId = project.projectPhoto.map(
     (item) => item.public_id
   );
@@ -48,7 +47,7 @@ function Card({ project }) {
     if (userConfirmed) {
       try {
         await deleteProject(id, coverId, projectId);
-        alert("deleted successfully!")
+        // alert("deleted successfully!")
         toast.success("Project deleted successfully", {
           position: "top-right",
           autoClose: 5000,
@@ -76,12 +75,13 @@ function Card({ project }) {
     }
   };
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id={id}>
+      <ToastContainer  style={{fontSize:"14px"}}/>
       <div className={styles.card}>
         <div className={styles.cardTop}
         onClick={() => {
          try {
-           dispatch(addProjectPhoto(projectPhoto[0]));
+           dispatch(AddSingleProject(project));
            dispatch(toogleProjectPhoto());
          } catch (error) {
           console.log(error)

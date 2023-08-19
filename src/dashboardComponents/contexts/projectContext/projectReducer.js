@@ -6,11 +6,17 @@ export const ProjectReducer = (state, action) => {
         projects: action.payload,
         isLoading: false,
       };
+      case "ADD_SINGLE_PROJECT":
+        return{
+          ...state,
+          projects:action.payload,
+          isLoading:false
+        }
     case "ADD_PROJECT":
       return {
         ...state,
         projects: [...state.projects, action.payload],
-        isLoading: fasle,
+        isLoading: false,
       };
     case "UPDATE_PROJECT":
       const updatedproject = state.projects.map((project) =>
@@ -38,13 +44,6 @@ export const ProjectReducer = (state, action) => {
         projects: [],
         isLoading:false
       };
-      
-    case "ADD_PROJECT_PHOTO":
-      return{
-        ...state,
-        projectPhoto:[...state.projectPhoto, action.payload],
-        isLoading:false
-      }
       case "IS_VISIBLE":
         return {
           ...state,

@@ -67,9 +67,6 @@ export default async function Page() {
 
   return session ? (<div>
       <div className={styles.container}>
-        <div className={styles.left}>
-          {/* <SideNav /> */}
-        </div>
         <div className={styles.right}>
           <Suspense fallback="loading...">
           <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers}/>

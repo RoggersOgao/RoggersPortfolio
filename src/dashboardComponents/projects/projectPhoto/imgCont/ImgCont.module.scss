@@ -9,7 +9,7 @@
     z-index: 8;
     height: 100%;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.67);
+    background-color: rgba(25, 25, 25, 0.919);
     // backdrop-filter: blur(10px);
 
     height: 100vh;
@@ -60,6 +60,7 @@
         flex-direction:column;
         align-items:center;
         gap:1rem;
+        z-index:7;
         .profile{
             display:flex;
             flex-direction: column;

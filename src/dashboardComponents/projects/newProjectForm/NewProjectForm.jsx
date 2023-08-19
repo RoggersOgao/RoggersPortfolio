@@ -12,6 +12,7 @@ import { PiSpinnerLight } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 const animatedComponents = makeAnimated();
 
@@ -88,8 +89,10 @@ function NewProjectForm() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (files.length > 2 || files.length < 2)
-      alert("Only 2 images are required!");
+    if (files.length !== 2) {
+      alert("Please upload exactly 2 images.");
+      return;
+    }
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("files", file);
@@ -108,6 +111,7 @@ function NewProjectForm() {
       selectRef.current.clearValue();
       formRef.current.reset();
       setIsLoading(false);
+
       toast.success("Project added successfully!", {
         position: "top-right",
         autoClose: 5000,
@@ -133,10 +137,12 @@ function NewProjectForm() {
         ject
       </h1>
       <div className={styles.formContainer}>
-      <ToastContainer style={{ fontSize: "14px" }} />
+        <ToastContainer style={{ fontSize: "14px" }} />
         <div className={styles.title}>
           <h1>New Project</h1>
-          <button>Back</button>
+          <Link href="/dashboard/projects">
+            <button>Back</button>
+          </Link>
         </div>
         <form className={styles.form} onSubmit={handleUpload} ref={formRef}>
           <div className={styles.formGroup}>

@@ -2,6 +2,8 @@
 
 .container{
     margin-bottom:7rem;
+    display:flex;
+    justify-content: center;
     .card{
         width:95%;
         border-radius:1rem;

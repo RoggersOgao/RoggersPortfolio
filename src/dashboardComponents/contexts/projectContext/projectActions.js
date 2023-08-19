@@ -13,9 +13,6 @@ import axios from "axios";
 
 const proj = axios.create({
   baseURL: "http://localhost:3000/",
-  headers: {
-    "content-type": "application/json",
-  },
 });
 
 cloudinary.config({
@@ -23,7 +20,6 @@ cloudinary.config({
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET,
 });
-
 
 export const fetchProject = async () => {
   try {
@@ -108,42 +104,41 @@ async function uploadPhotosToCloudinary(newFiles) {
 export const uploadData = async (formData) => {
   try {
     const technologiesArray = formData.getAll("technologies[]");
-    const parsedTechnologies = [];
-    technologiesArray.forEach((jsonString) => {
-      try {
-        const parsedObject = JSON.parse(jsonString);
-        parsedTechnologies.push(parsedObject);
-      } catch (error) {
-        console.error("Parsing error:", error);
-      }
-    });
-
-    const newFiles = await uploadPhotoToLocalStorage(formData); // Make sure this function is defined and working correctly
-    const photos = await uploadPhotosToCloudinary(newFiles); // Make sure this function is defined and working correctly
-
-    // Delete the photos uploaded in the temp folder after successfully uploading to Cloudinary
+    const parsedTechnologies = technologiesArray
+      .map((jsonString) => {
+        try {
+          return JSON.parse(jsonString);
+        } catch (error) {
+          console.error("Parsing error:", error);
+          return null;
+        }
+      })
+      .filter(Boolean);
+      
+    const newFiles = await uploadPhotoToLocalStorage(formData);
+    const photos = await uploadPhotosToCloudinary(newFiles);
     await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
 
-    const response = await axios.post("http://localhost:3000/api/project", {
+
+    const projectData = {
       projectName: formData.get("projectName"),
       projectDescription: formData.get("projectDescription"),
       technologies: parsedTechnologies,
       projectLink: formData.get("projectLink"),
       coverPhoto: photos[0],
       projectPhoto: photos[1],
-    });
+    };
 
-    console.log("Uploaded successfully!", response.data);
+    try {
+      const response = await proj.post("/api/project", projectData);
+      console.log("Uploaded successfully!", response);
 
-    return response.data; // Return the response data
+      NextResponse.json({ message: "uploaded Successfully" }, { status: 200 });
+    } catch (err) {
+      console.log(err);
+    }
   } catch (error) {
     console.error("Upload error:", error);
-
-    // Return an error response
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
-    };
   }
 };
 
@@ -192,7 +187,13 @@ export const fetchProjectById = async (id) => {
   }
 };
 
-export const updateProject = async (id, formData, hasNewImages = false, coverPhoto_public_id,projectPhoto_public_id) => {
+export const updateProject = async (
+  id,
+  formData,
+  hasNewImages = false,
+  coverPhoto_public_id,
+  projectPhoto_public_id
+) => {
   try {
     const technologiesArray = formData.getAll("technologies[]");
     // console.log(technologiesArray);
@@ -214,34 +215,40 @@ export const updateProject = async (id, formData, hasNewImages = false, coverPho
       const newFiles = await uploadPhotoToLocalStorage(formData);
       photos = await uploadPhotosToCloudinary(newFiles);
       cloudinary.v2.uploader.destroy(coverPhoto_public_id);
-    cloudinary.v2.uploader.destroy(projectPhoto_public_id);
+      cloudinary.v2.uploader.destroy(projectPhoto_public_id);
       await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
     }
 
     // console.log(photos); // Now this should reflect the correct photos array
-
-    // update the project in the database
-    const response = await proj.put(`/api/project?id=${id}`, {
+    const projectData = {
       projectName: formData.get("projectName"),
       projectDescription: formData.get("projectDescription"),
       technologies: parsedTechnologies,
       projectLink: formData.get("projectLink"),
-      // Only update the cover and project photos if new images were uploaded
-      ...(hasNewImages && { coverPhoto: photos[0], projectPhoto: photos[1] }),
-    });
+       // Only update the cover and project photos if new images were uploaded
+       ...(hasNewImages && { coverPhoto: photos[0], projectPhoto: photos[1] }),
+    };
+    // update the project in the database
+    try{
+      
+      const response = await proj.put(`/api/project?id=${id}`, projectData);
+      console.log("updated successfully!", response);
+  
+      NextResponse.json({ message: "updated Successfully" }, { status: 200 });
+    }catch(err){
+      console.error("update Error", err)
+    }
 
-    console.log("updated successfully!", response);
-
-    NextResponse.json(
-      { message: "updated Successfully" },
-      { status: 200 }
-    );
   } catch (err) {
     console.log(err);
   }
 };
 
-export async function deleteProject(id, coverPhoto_public_id, projectPhoto_public_id) {
+export async function deleteProject(
+  id,
+  coverPhoto_public_id,
+  projectPhoto_public_id
+) {
   try {
     cloudinary.v2.uploader.destroy(coverPhoto_public_id);
     cloudinary.v2.uploader.destroy(projectPhoto_public_id);

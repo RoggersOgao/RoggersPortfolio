@@ -36,7 +36,7 @@ function SideNav() {
               </Tooltip>
               <Tooltip title="logout" position='right'>
                 <li>
-                  <Link href="" className={styles.link}><FiLogOut className={styles.icon} onClick={handleLogout} /></Link>
+                  <FiLogOut className={styles.icon} onClick={handleLogout} />
                 </li>
               </Tooltip>
             </ul>

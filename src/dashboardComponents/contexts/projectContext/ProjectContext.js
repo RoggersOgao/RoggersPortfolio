@@ -7,7 +7,6 @@ export const ProjectProvider = ({children}) => {
     const initialState ={
         projects:[],
         isVisible:false,
-        projectPhoto:[],
         isLoading:true
     }
     const [ state, dispatch] = useReducer(ProjectReducer, initialState)

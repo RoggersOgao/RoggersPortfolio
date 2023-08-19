@@ -2,8 +2,11 @@ import Image from 'next/image'
 import React from 'react'
 import styles from "./ProjectPhoto.module.scss"
 
-function ProjectPhoto({photo, loading}) {
+function ProjectPhoto({project, loading}) {
+
+    const photo = project.projectPhoto.map((item) => item.secure_url);
     console.log(photo)
+
   return (
     <div className={styles.container}>
         
@@ -22,7 +25,7 @@ function ProjectPhoto({photo, loading}) {
                 </div>
                 <div className={styles.profileRight}>
                     <div className={styles.profileRightTitle}>
-                        <h1>Photography website design</h1>
+                        <h1>{project.projectName}</h1>
                     </div>
                     <div className={styles.name}>
                         <p>Roggers Ogao</p>
@@ -39,7 +42,7 @@ function ProjectPhoto({photo, loading}) {
                       quality={100}
                       className={styles.img}
                     />
-                ): "loading"}
+                ): "loading..."}
             </div>
           </div>
           <div className={styles.contentRight}>

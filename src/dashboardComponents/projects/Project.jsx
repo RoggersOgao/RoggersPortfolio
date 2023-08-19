@@ -32,7 +32,7 @@ function Project({ project }) {
           <div className={styles.card}>
             {project?.projects?.map((item, index) => (
               <div key={index}>
-                <Card project={item} />
+                <Card project={item} id={index}/>
               </div>
             ))}
           </div>
@@ -40,8 +40,9 @@ function Project({ project }) {
       </div>
       <div className={styles.containerRight}>
         <ul>
+          {/* <li className={styles.addProj}>addProject</li> */}
           {project?.projects?.map((item, index) => (
-            <li key={index}>{item.projectName}</li>
+            <li key={index}><a href={`#${index}`}>{item.projectName}</a></li>
           ))}
         </ul>
       </div>
