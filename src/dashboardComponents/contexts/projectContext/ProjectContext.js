@@ -7,14 +7,14 @@ export const ProjectProvider = ({children}) => {
     const initialState ={
         projects:[],
         isVisible:false,
-        isLoading:true
+        loading:true
     }
     const [ state, dispatch] = useReducer(ProjectReducer, initialState)
 
     return <ProjectContext.Provider value={{
         state,
         dispatch,
-        isLoading:state.isLoading
+        loading:state.loading
     }}>
         {children}
     </ProjectContext.Provider>

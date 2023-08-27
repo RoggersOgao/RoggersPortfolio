@@ -8,6 +8,19 @@
     padding:4rem;
     border-radius: 1rem;
 
+    @include respond(tab-land){
+        width:60%;
+        margin: 0 auto;
+    }
+    @include respond(tab-port){
+        width:80%;
+    }
+    @include respond(phone){
+        width:99%;
+        padding:1rem;
+        
+    }
+
     .projectNameBack{
         position:absolute;
         font-size:50rem;
@@ -18,10 +31,26 @@
         z-index:-1;
         transform:translate(-50%,-50%);
         text-align: center;
+        overflow: hidden;
+
+        @include respond(tab-land){
+            width:99%;
+            
+            // margin:0 auto;
+            font-size:40rem;
+            left:20%;
+        }
+        @include respond(tab-port){
+            font-size:45rem;
+        }
+        @include respond(phone){
+            font-size:30rem;
+        }
     }
 
     .formContainer {
-        width: 100%;
+        width: 99.9%;
+        margin:0 auto;
 
         @include respond(phone) {
             width: 98%;
@@ -31,11 +60,13 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom:3rem;
+            flex-wrap:wrap;
             h1{
                 font-size:4rem;
                 font-weight: 1000;
             }
             button{
+                min-width:10rem;
                 padding:.9rem 2rem;
                 border:none;
                 background-color: var(--green-color);
@@ -45,6 +76,10 @@
                 border-radius:10rem;
                 border:.3px solid transparent;
                 transition:all .3s ease-in-out;
+
+                @include respond(phone){
+                    margin-top:2rem;
+                }
 
                 &:hover{
                     background-color:transparent;
@@ -73,6 +108,7 @@
                     border: .3px solid var(--border-grey);
                     border-radius: .6rem;
                     transition:all .3s ease-in-out;
+                    color:white;
 
                 }
                 textarea{
@@ -84,6 +120,7 @@
                     height:14rem;
                     font-family: inherit;
                     font-weight: 600;
+                    color:white;
                     transition:all .3s ease-in-out;
                 }
                 span{
@@ -110,6 +147,7 @@
                         align-items:center;
                         justify-content:center;
                         gap:1rem;
+                        color:white;
                         
 
                         &:hover{

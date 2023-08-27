@@ -46,6 +46,7 @@ import { options } from "@/app/api/auth/[...nextauth]/options"
 import { fetchGithubUsers, fetchGoogleUsers, fetchUser } from "@/dashboardComponents/contexts/dashHomeContext/DashActions"
 import { Suspense } from "react"
 
+
 export default async function Page() {
   const session = await getServerSession(options)
   // Function to count users for a specific year

@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import styles from "./SideNav.module.scss"
-import { GiModernCity, GiCube } from 'react-icons/gi'
+import { GiModernCity, GiCube, GiPaintBrush } from 'react-icons/gi'
 import { FiLogOut } from 'react-icons/fi'
 import { AiFillSetting } from 'react-icons/ai'
 import { signOut } from 'next-auth/react'
@@ -27,6 +27,11 @@ function SideNav() {
               <Tooltip title="projects" position='right'>
                 <li>
                   <Link href="/dashboard/projects" className={styles.link}><GiCube className={styles.icon} /></Link>
+                </li>
+              </Tooltip>
+              <Tooltip title="graphic design artwork" position='right'>
+                <li>
+                  <Link href="/dashboard/design" className={styles.link}><GiPaintBrush className={styles.icon} /></Link>
                 </li>
               </Tooltip>
               <Tooltip title="settings" position='right'>

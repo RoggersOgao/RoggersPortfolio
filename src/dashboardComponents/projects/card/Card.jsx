@@ -3,12 +3,10 @@ import React, { useContext } from "react";
 import styles from "./Card.module.scss";
 import Image from "next/image";
 import { GiCube } from "react-icons/gi";
-import { FaStickyNote } from "react-icons/fa";
 import { MdRebaseEdit } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import {
   AiFillDelete,
-  AiOutlineSolution,
   AiFillCode,
   AiOutlineLink,
 } from "react-icons/ai";
@@ -96,6 +94,8 @@ function Card({ project, id }) {
             height={400}
             quality={100}
             className={styles.img}
+            placeholder="blur"
+            blurDataURL={coverPhoto[0]}
            
           />
         </div>

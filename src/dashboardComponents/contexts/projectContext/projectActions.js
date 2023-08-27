@@ -114,11 +114,10 @@ export const uploadData = async (formData) => {
         }
       })
       .filter(Boolean);
-      
+
     const newFiles = await uploadPhotoToLocalStorage(formData);
     const photos = await uploadPhotosToCloudinary(newFiles);
     await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
-
 
     const projectData = {
       projectName: formData.get("projectName"),
@@ -131,9 +130,10 @@ export const uploadData = async (formData) => {
 
     try {
       const response = await proj.post("/api/project", projectData);
-      console.log("Uploaded successfully!", response);
-
-      NextResponse.json({ message: "uploaded Successfully" }, { status: 200 });
+      // console.log("Uploaded successfully!", response);
+      if (response.status === 200) {
+        return { data: response.data, status: response.status };
+      }
     } catch (err) {
       console.log(err);
     }
@@ -225,22 +225,23 @@ export const updateProject = async (
       projectDescription: formData.get("projectDescription"),
       technologies: parsedTechnologies,
       projectLink: formData.get("projectLink"),
-       // Only update the cover and project photos if new images were uploaded
-       ...(hasNewImages && { coverPhoto: photos[0], projectPhoto: photos[1] }),
+      // Only update the cover and project photos if new images were uploaded
+      ...(hasNewImages && { coverPhoto: photos[0], projectPhoto: photos[1] }),
     };
     // update the project in the database
-    try{
-      
+    try {
       const response = await proj.put(`/api/project?id=${id}`, projectData);
-      console.log("updated successfully!", response);
-  
-      NextResponse.json({ message: "updated Successfully" }, { status: 200 });
-    }catch(err){
-      console.error("update Error", err)
+      // console.log("updated successfully!", response);
+      if (response.status === 200) {
+        return { data: response.data, status: response.status };
+      }
+    } catch (error) {
+      console.error("update Error", err.message);
+      return error.message;
     }
-
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
+    return err.message;
   }
 };
 
@@ -252,9 +253,11 @@ export async function deleteProject(
   try {
     cloudinary.v2.uploader.destroy(coverPhoto_public_id);
     cloudinary.v2.uploader.destroy(projectPhoto_public_id);
-    await proj.delete(`/api/project?id=${id}`);
+    const response = await proj.delete(`/api/project?id=${id}`);
     revalidatePath("/");
-    return { msg: "Deleted Successfully!" };
+    if (response.status === 200) {
+      return { msg: response.data };
+    }
   } catch (err) {
     return { message: err.message };
   }

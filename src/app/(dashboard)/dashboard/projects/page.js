@@ -9,6 +9,10 @@ import Project from "@/dashboardComponents/projects/Project";
 import { fetchProject } from "@/dashboardComponents/contexts/projectContext/projectActions";
 import ImgCont from "@/dashboardComponents/projects/projectPhoto/imgCont/ImgCont";
 
+export const metadata = {
+  title: 'All Projects . Portfolio',
+  description: 'complete next app created with love!',
+}
 
 export default async function Page() {
   const session = await getServerSession(options);

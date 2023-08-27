@@ -105,14 +105,15 @@ function NewProjectForm() {
     formData.append("projectLink", form.projectLink);
     try {
       setIsLoading(true);
-      await uploadData(formData);
+      const response = await uploadData(formData);
+      console.log(response)
       setForm([]);
       setFiles([]);
       selectRef.current.clearValue();
       formRef.current.reset();
       setIsLoading(false);
 
-      toast.success("Project added successfully!", {
+      toast.success(response.data.message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -137,7 +138,7 @@ function NewProjectForm() {
         ject
       </h1>
       <div className={styles.formContainer}>
-        <ToastContainer style={{ fontSize: "14px" }} />
+      <ToastContainer style={{ fontSize: "14px", marginTop:"5rem" }} />
         <div className={styles.title}>
           <h1>New Project</h1>
           <Link href="/dashboard/projects">

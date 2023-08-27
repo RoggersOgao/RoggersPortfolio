@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
     image: {
         type: String,
         default: "https://source.unsplash.com/3tYZjGSBwbk"
+    },
+    role:{
+        type:String,
+        default:"user"
     }
 }, { timestamps: true }
 )

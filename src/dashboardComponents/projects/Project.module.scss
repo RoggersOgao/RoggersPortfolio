@@ -65,10 +65,12 @@
                         font-size: 1.4rem;
                         border-radius: 8rem;
                         transition: all .3s ease;
+                        color:white;
 
                         &:hover {
                             box-shadow: 0 3px 15px -2px rgb(19, 19, 19);
                             cursor: pointer;
+                            background-color:green;
                         }
                     }
                 }

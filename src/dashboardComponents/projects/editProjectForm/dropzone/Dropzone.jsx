@@ -76,6 +76,7 @@ function Dropzone({files, setFiles, displayFiles}) {
 
 const removeFile = (name) => {
     setFiles(files => files.filter((file)=> file.name !== name))
+    setDispalyFiles(files => files.filter((file)=> file.original_filename !== name))
 }
 
 // functioanility to remove rejected files3
@@ -129,7 +130,7 @@ const removeRejected = (name) => {
             <div className={styles.prev} key={index}>
                 <li>
                     <div className={styles.uploadedContent}>
-                        <div className={styles.close} onClick={()=> removeFile(file.name)}>
+                        <div className={styles.close} onClick={()=> removeFile(file.name ? file.name : file.original_filename)}>
                             <AiOutlineCloseCircle />
                         </div>
                    <div className={styles.uploadedContentImg}>
@@ -139,6 +140,8 @@ const removeRejected = (name) => {
                     width={100}
                     height={100}
                     className={styles.prevImg}
+                    placeholder="blur"
+                    blurDataURL={file.preview ? file.preview : file.secure_url}
                     // onLoad={()=>{
                     //     URL.revokeObjectURL(file.preview)
                     // }}

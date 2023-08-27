@@ -5,6 +5,8 @@ import Card from "./card/Card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+
+
 function Project({ project }) {
   const router = useRouter();
 

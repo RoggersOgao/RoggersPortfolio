@@ -41,9 +41,12 @@ export async function POST(request){
         if(existsName || existsLink){
             return NextResponse.json({message:"Project already exists!"}, {status:409})
         }
-        const project = await Project.create(res)
-
-        return NextResponse.json({message:"Project created successfully!",project},{status:201})
+        try{
+          const project = await Project.create(res)
+          return NextResponse.json({message:"Project Uploaded successfully 👽", data:project}, { status: 200 });
+        }catch(err){
+          console.error(err)
+        }
     }catch(err){
         NextResponse.json({message:err.message}, {status:500})
     }

@@ -5,7 +5,7 @@ import styles from "./ProjectPhoto.module.scss"
 function ProjectPhoto({project, loading}) {
 
     const photo = project.projectPhoto.map((item) => item.secure_url);
-    console.log(photo)
+    // console.log(photo)
 
   return (
     <div className={styles.container}>
@@ -36,7 +36,7 @@ function ProjectPhoto({project, loading}) {
                 {!loading ? (
                     <Image
                       src={photo[0]}
-                      alt="intellisirn website"
+                      alt={photo[0]}
                       width={1200}
                       height={756}
                       quality={100}

@@ -9,6 +9,7 @@ const usersSchema = Joi.object({
   email: Joi.string().trim().lowercase().email().required(),
   password: Joi.string().required().min(8).max(100),
   image: Joi.string().optional(),
+  role: Joi.string()
 });
 
 export async function GET(request) {
@@ -44,7 +45,7 @@ export async function POST(request) {
       );
     }
 
-    const { name, email, password, image } = value;
+    const { name, email, password, image, role } = value;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -57,7 +58,7 @@ export async function POST(request) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = new User({ name, email, password: hashedPassword, image });
+    const user = new User({ name, email, password: hashedPassword, image, role });
     const savedUser = await user.save();
 
     return NextResponse.json("User created successfully 👽", { status: 201 });
@@ -80,20 +81,20 @@ export async function PUT(request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    const { name, email, password, image } = value;
+    const { name, email, password, image, role } = value;
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.findByIdAndUpdate(
       id,
-      { name, email, password: hashedPassword, image },
+      { name, email, password: hashedPassword, image, role },
       { new: true, runValidator: true }
     );
     if (!user) {
       return NextResponse.json({ message: "User not found 💩" });
     }
-    return NextResponse.json({ user }, { status: 200 });
+    return NextResponse.json({message:"User updated successfully! 👻", user }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 });
   }

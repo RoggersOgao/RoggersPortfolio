@@ -149,7 +149,7 @@ function EditProjectForm({ projectData }) {
       // console.log("hasNewImages:", newFiles.length > 0);
       setIsLoading(true);
       
-      await updateProject(projectData._id, formData, newFiles.length > 0, coverPhotoPublic_id[0], projectPhotoPublic_id[0]);
+      const response = await updateProject(projectData._id, formData, newFiles.length > 0, coverPhotoPublic_id[0], projectPhotoPublic_id[0]);
 
       setForm([]);
       setFiles([]);
@@ -158,8 +158,7 @@ function EditProjectForm({ projectData }) {
       setTechl([]);
       formRef.current.reset();
       setIsLoading(false);
-      // router.refresh();
-      toast.success("Project added successfully!", {
+      toast.success(response.data, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -172,8 +171,16 @@ function EditProjectForm({ projectData }) {
 
       router.push("/dashboard/projects");
     } catch (err) {
-      console.log(err);
-      alert("error uploading file");
+      toast.success(err.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 

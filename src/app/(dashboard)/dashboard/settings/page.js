@@ -1,4 +1,3 @@
-import SideNav from "@/dashboardComponents/nav/sideNav/SideNav";
 import styles from "./page.module.scss"
 import { redirect } from "next/navigation";
 import { SpinnerCircular } from "spinners-react";
@@ -6,7 +5,11 @@ import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { Suspense } from "react";
 
-
+export const metadata = {
+    title: 'Settings . Portfolio',
+    description: 'complete next app created with love!',
+  }
+  
 export default async function Page(){
     const session = await getServerSession(options)
     if(!session){
@@ -15,9 +18,6 @@ export default async function Page(){
 
     return session ? (
         <div className={styles.container}>
-            <div className={styles.left}>
-                {/* <SideNav /> */}
-            </div>
             <div className={styles.right}>
             <Suspense fallback="loading...">
                 settings

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineClose } from "react-icons/md";
 import Image from "next/image";
 import { BsGithub, BsInstagram } from "react-icons/bs";
@@ -8,10 +8,21 @@ import ProjectPhoto from "../ProjectPhoto";
 import styles from "./ImgCont.module.scss";
 import ProjectContext from "@/dashboardComponents/contexts/projectContext/ProjectContext";
 import { closeProjectPhoto } from "@/dashboardComponents/contexts/projectContext/dispatchActions";
-import Link from "next/link";
+
 
 function ImgCont() {
   const { state, dispatch } = useContext(ProjectContext);
+  useEffect(() => {
+    if (state.isVisible) {
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    } else {
+      document.body.style.overflow = 'auto';   // Enable scrolling
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';   // Clean up when unmounting
+    };
+  }, [state.isVisible]);
   return (
     <>
       {state.isVisible && (
@@ -48,7 +59,7 @@ function ImgCont() {
                 </i>
               </div>
             </a>
-            <a href="https://www.linkedin.com/in/roggers-ogao-b35718202/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/roggers_ogao/" target="_blank" rel="noopener noreferrer">
               <div className={styles.instagram}>
                 <i>
                   <BsInstagram />

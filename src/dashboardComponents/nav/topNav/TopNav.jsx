@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./TopNav.module.scss"
 import Image from 'next/image'
-import { CiLogout } from "react-icons/ci"
+// import { CiLogout } from "react-icons/ci"
 function TopNav({ session }) {
 
     return (
