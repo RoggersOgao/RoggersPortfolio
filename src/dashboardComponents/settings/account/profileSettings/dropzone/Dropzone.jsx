@@ -1,11 +1,13 @@
 "use client";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useContext } from "react";
 import styles from "./Dropzone.module.scss";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import { AiOutlineCloseCircle, AiFillFileExcel } from 'react-icons/ai'
 import { PiUploadLight } from 'react-icons/pi'
 import { GrFormClose } from 'react-icons/gr'
+import { addFile } from "@/dashboardComponents/contexts/settingsContext/dispatchSettingsActions";
+import SettingsContext from "@/dashboardComponents/contexts/settingsContext/SettingsContext";
 
 // const imageValidator = (file) => {
 //   const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
@@ -44,9 +46,14 @@ import { GrFormClose } from 'react-icons/gr'
 function Dropzone({files, setFiles, displayFiles, setDisplayFiles}) {
 
   const [rejected, setRejected] = useState([])
+  const {state, dispatch} = useContext(SettingsContext)
+  console.log(state)
 
   files = files.length === 0 ? displayFiles : files;
-
+  
+  useEffect(()=>{
+    dispatch(addFile(files))
+  },[files,dispatch])
 //   generating a preview url for uploaded images
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles?.length) {
@@ -120,7 +127,7 @@ const removeRejected = (name) => {
         ) : (
             <>
             <i><PiUploadLight /></i>
-          <p>Drag and drop some files here, or click to select files (2 Files)</p>
+          <p><span>Click to upload</span> or drag and drop <br/>, PNG, JPEG, JPG <br/> (1 Image)</p>
           </>
         )}
       </div>

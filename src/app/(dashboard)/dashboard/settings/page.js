@@ -4,6 +4,7 @@ import { SpinnerCircular } from "spinners-react";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { Suspense } from "react";
+import Settings from "@/dashboardComponents/settings/Settings";
 
 export const metadata = {
     title: 'Settings . Portfolio',
@@ -20,7 +21,7 @@ export default async function Page(){
         <div className={styles.container}>
             <div className={styles.right}>
             <Suspense fallback="loading...">
-                settings
+                <Settings />
             </Suspense>
             </div>
         </div>

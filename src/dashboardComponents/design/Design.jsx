@@ -10,65 +10,68 @@ import { SiCairographics, SiConstruct3 } from "react-icons/si";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DesignContext from "../contexts/designContext/DesignContext";
-import { AddSingleDesign, setDesignIndex, toogleDesignPhoto } from "../contexts/designContext/dispatchDesignActions";
+import {
+  AddSingleDesign,
+  setDesignIndex,
+  toogleDesignPhoto,
+} from "../contexts/designContext/dispatchDesignActions";
 import { deleteDesign } from "../contexts/designContext/designActions";
-import { Tooltip } from 'react-tippy';
-import 'react-tippy/dist/tippy.css';
-function Design({designs}) {
-  const {dispatch} = useContext(DesignContext)
+import { Tooltip } from "react-tippy";
+import "react-tippy/dist/tippy.css";
+function Design({ designs }) {
+  const { dispatch } = useContext(DesignContext);
   const [actionsVisible, setActionsVisible] = useState(false);
-  const desgn = designs.designs
+  const desgn = designs.designs;
   // console.log({desgn})
-  const images = desgn.map((item)=> item)
+  const images = desgn.map((item) => item);
   // console.log(images)
-  
-  const designPublicId = images.map((item)=> item.design[0].public_id)
+
+  const designPublicId = images.map((item) => item.design[0].public_id);
   // console.log(designPublicId[1])
-  const router = useRouter()
-// handle delete function 
+  const router = useRouter();
+  // handle delete function
 
+  const handleDelete = async (id, designPublic_id) => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete this project?"
+    );
 
-const handleDelete = async (id, designPublic_id) => {
-  const userConfirmed = window.confirm(
-    "Are you sure you want to delete this project?"
-  );
+    if (userConfirmed) {
+      try {
+        const response = await deleteDesign(id, designPublic_id);
 
-  if (userConfirmed) {
-    try {
-      const response = await deleteDesign(id, designPublic_id);
-      
-      toast.success(response.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      router.refresh(); // Adapt this based on your routing setup
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occurred while deleting the project", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+        toast.success(response.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        router.refresh(); // Adapt this based on your routing setup
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occurred while deleting the project", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
-  }
-};
-  useEffect(()=>{
-    router.refresh()
-  },[])
+  };
+  useEffect(() => {
+    router.refresh();
+  }, []);
   return (
     <div className={styles.container}>
-      <ToastContainer style={{ fontSize: "14px", marginTop:"5rem" }} />
+      <ToastContainer style={{ fontSize: "14px", marginTop: "5rem" }} />
       <div className={styles.containerTitle}>
         <h1>Design</h1>
       </div>
@@ -93,9 +96,9 @@ const handleDelete = async (id, designPublic_id) => {
                 className={styles.imageCont}
                 key={index1}
                 onMouseEnter={() => setActionsVisible(index1)}
-                onMouseLeave={() => setActionsVisible(-1)} 
+                onMouseLeave={() => setActionsVisible(-1)}
               >
-                {item.design.map((item, index)=>(
+                {item.design.map((item, index) => (
                   <div key={index} className={styles.icont}>
                     <Image
                       src={item.secure_url}
@@ -104,40 +107,47 @@ const handleDelete = async (id, designPublic_id) => {
                       height={300}
                       quality={100}
                       className={styles.img}
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={`data:image/jpeg;base:64,${item.secure_url}`}
                       onClick={() => {
-                        dispatch(setDesignIndex(index1))
+                        dispatch(setDesignIndex(index1));
                         dispatch(toogleDesignPhoto());
-                        dispatch(AddSingleDesign(images))
+                        dispatch(AddSingleDesign(images));
                       }}
                     />
                   </div>
-
                 ))}
                 <div className={styles.imageDescription}>
                   <p>{item.description}</p>
                 </div>
                 {actionsVisible === index1 && (
                   <div className={styles.actions}>
-                    <Tooltip title="edit" position='left' style={{fontSize:"1.6rem", backdropFilter:"none"}}>
-                    <Link href={`/dashboard/design/${item._id}`}>
-                    <i className={styles.edit}>
-                      <MdRebaseEdit />
-                    </i>
-                    </Link>
+                    <Tooltip
+                      title="edit"
+                      position="left"
+                      style={{ fontSize: "1.6rem", backdropFilter: "none" }}
+                    >
+                      <Link href={`/dashboard/design/${item._id}`}>
+                        <i className={styles.edit}>
+                          <MdRebaseEdit />
+                        </i>
+                      </Link>
                     </Tooltip>
                     {/**/}
-                    <Tooltip title="delete" position='top' style={{fontSize:"1.6rem", backdropFilter:"none"}}>
-                    <i
-                      className={styles.delete}
-                      onClick={() =>
-                        handleDelete(
-                          item._id,
-                          designPublicId[index1],
-                        )
-                      }
+                    <Tooltip
+                      title="delete"
+                      position="top"
+                      style={{ fontSize: "1.6rem", backdropFilter: "none" }}
                     >
-                      <AiFillDelete />
-                    </i>
+                      <i
+                        className={styles.delete}
+                        onClick={() =>
+                          handleDelete(item._id, designPublicId[index1])
+                        }
+                      >
+                        <AiFillDelete />
+                      </i>
                     </Tooltip>
                   </div>
                 )}

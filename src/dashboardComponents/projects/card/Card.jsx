@@ -1,15 +1,11 @@
-"use client"
+"use client";
 import React, { useContext } from "react";
 import styles from "./Card.module.scss";
 import Image from "next/image";
 import { GiCube } from "react-icons/gi";
 import { MdRebaseEdit } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import {
-  AiFillDelete,
-  AiFillCode,
-  AiOutlineLink,
-} from "react-icons/ai";
+import { AiFillDelete, AiFillCode, AiOutlineLink } from "react-icons/ai";
 import { GiTechnoHeart, GiBinoculars } from "react-icons/gi";
 import Link from "next/link";
 import { deleteProject } from "@/dashboardComponents/contexts/projectContext/projectActions";
@@ -17,15 +13,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProjectContext from "@/dashboardComponents/contexts/projectContext/ProjectContext";
 
-
-import { AddSingleProject, toogleProjectPhoto } from "@/dashboardComponents/contexts/projectContext/dispatchActions";
-
-
-
+import {
+  AddSingleProject,
+  toogleProjectPhoto,
+} from "@/dashboardComponents/contexts/projectContext/dispatchActions";
 
 function Card({ project, id }) {
-
-  const { state, dispatch } = useContext(ProjectContext)
+  const { state, dispatch } = useContext(ProjectContext);
   const coverPhoto = project.coverPhoto.map((item) => item.secure_url);
   const coverPhotoPublicId = project.coverPhoto.map((item) => item.public_id);
   const projectPhotoPublicId = project.projectPhoto.map(
@@ -74,18 +68,18 @@ function Card({ project, id }) {
   };
   return (
     <div className={styles.container} id={id}>
-      <ToastContainer  style={{fontSize:"14px"}}/>
+      <ToastContainer style={{ fontSize: "14px" }} />
       <div className={styles.card}>
-        <div className={styles.cardTop}
-        onClick={() => {
-         try {
-           dispatch(AddSingleProject(project));
-           dispatch(toogleProjectPhoto());
-         } catch (error) {
-          console.log(error)
-         }
-        }}
-        
+        <div
+          className={styles.cardTop}
+          onClick={() => {
+            try {
+              dispatch(AddSingleProject(project));
+              dispatch(toogleProjectPhoto());
+            } catch (error) {
+              console.log(error);
+            }
+          }}
         >
           <Image
             src={coverPhoto[0]}
@@ -93,10 +87,10 @@ function Card({ project, id }) {
             width={720}
             height={400}
             quality={100}
+            loading="lazy"
             className={styles.img}
             placeholder="blur"
-            blurDataURL={coverPhoto[0]}
-           
+            blurDataURL={`data:image/jpeg;base:64,${coverPhoto[0]}`}
           />
         </div>
         <div className={styles.cardBottom}>

@@ -67,7 +67,7 @@ function Corousel({design}) {
             height={600}
             className={styles.img}
             placeholder="blur"
-            blurDataURL={currentImage.secure_url}
+            blurDataURL={`data:image/jpeg;base:64,${currentImage.secure_url}`}
           />
         </div>
 

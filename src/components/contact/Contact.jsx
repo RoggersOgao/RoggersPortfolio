@@ -12,7 +12,6 @@ import Image from "next/image";
 import { VscError } from "react-icons/vsc";
 import { motion, AnimatePresence } from "framer-motion";
 function Contact() {
-  const [inputFilled, setInputFilled] = useState({});
   const [form, setForm] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);

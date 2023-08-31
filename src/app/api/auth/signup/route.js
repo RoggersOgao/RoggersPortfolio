@@ -4,13 +4,33 @@ import dbConnect from "../../../../../lib/dbConnect";
 import User from "../../../../../models/User";
 import { NextResponse } from "next/server";
 
-const usersSchema = Joi.object({
-  name: Joi.string().required().max(60),
-  email: Joi.string().trim().lowercase().email().required(),
-  password: Joi.string().required().min(8).max(100),
-  image: Joi.string().optional(),
-  role: Joi.string()
+
+const socialSchema = Joi.object({
+  linkedIn: Joi.string().allow("").optional(),
+  twitter: Joi.string().allow("").optional(),
+  instagram: Joi.string().allow("").optional(),
+  facebook: Joi.string().allow("").optional(),
+  github: Joi.string().allow("").optional(),
 });
+
+const personalSchema = Joi.object({
+  location: Joi.string().max(60).allow("").optional(),
+  company: Joi.string().max(60).allow("").optional(),
+  bio: Joi.string().max(600).allow("").optional(),
+});
+
+const usersSchema = Joi.object({
+  name: Joi.string().min(4).max(60).required(),
+  email: Joi.string().trim().lowercase().email().required(),
+  password: Joi.string().min(8).max(100),
+  image: Joi.string().default(
+    "https://res.cloudinary.com/dhk9gwc4q/image/upload/v1690988668/samples/animals/three-dogs.jpg"
+  ),
+  socials: Joi.array().items(socialSchema),
+  personalInfo: Joi.array().items(personalSchema),
+  role: Joi.string().default("user"),
+});
+
 
 export async function GET(request) {
   await dbConnect();
@@ -45,7 +65,7 @@ export async function POST(request) {
       );
     }
 
-    const { name, email, password, image, role } = value;
+    const { name, email, password, image, socials, personalInfo, role } = value;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -58,7 +78,7 @@ export async function POST(request) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = new User({ name, email, password: hashedPassword, image, role });
+    const user = new User({ name, email, password: hashedPassword, image, socials, personalInfo, role });
     const savedUser = await user.save();
 
     return NextResponse.json("User created successfully 👽", { status: 201 });
@@ -81,14 +101,14 @@ export async function PUT(request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    const { name, email, password, image, role } = value;
+    const { name, email, password, image, socials, personalInfo, role } = value;
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.findByIdAndUpdate(
       id,
-      { name, email, password: hashedPassword, image, role },
+      { name, email, password: hashedPassword, image, socials, personalInfo, role },
       { new: true, runValidator: true }
     );
     if (!user) {
