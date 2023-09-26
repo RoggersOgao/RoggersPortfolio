@@ -40,7 +40,7 @@ export function dsClearUser() {
 
 export const fetchProjects = async() => {
   try {
-    const res = await fetch("https://roggers-portfolio-git-main-roggersogao.vercel.app/api/project");
+    const res = await fetch("https://roggers-portfolio.vercel.app/api/project");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -52,7 +52,7 @@ export const fetchProjects = async() => {
 }
 export const fetchDesigns = async () => {
   try {
-    const res = await fetch("https://roggers-portfolio-git-main-roggersogao.vercel.app/api/design");
+    const res = await fetch("https://roggers-portfolio.vercel.app/api/design");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -65,7 +65,7 @@ export const fetchDesigns = async () => {
 
 export const fetchUser = async () => {
   try {
-    const res = await fetch("https://roggers-portfolio-git-main-roggersogao.vercel.app/api/users");
+    const res = await fetch("https://roggers-portfolio.vercel.app/api/users");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -77,7 +77,7 @@ export const fetchUser = async () => {
 };
 export const fetchGoogleUsers = async () => {
   try {
-    const res = await fetch("https://roggers-portfolio-git-main-roggersogao.vercel.app/api/auth/googleoauthusers");
+    const res = await fetch("https://roggers-portfolio.vercel.app/api/auth/googleoauthusers");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -89,7 +89,7 @@ export const fetchGoogleUsers = async () => {
 };
 export const fetchGithubUsers = async () => {
   try {
-    const res = await fetch("https://roggers-portfolio-git-main-roggersogao.vercel.app/api/auth/githuboauthusers");
+    const res = await fetch("https://roggers-portfolio.vercel.app/api/auth/githuboauthusers");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }

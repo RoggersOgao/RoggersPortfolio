@@ -98,12 +98,12 @@ function Login() {
     }
     const handleGoogleLogin = async () => {
         setLoading(prevState => ({ ...prevState, googleLoading: true }));
-        await signIn("google", { callbackUrl: "https://roggers-portfolio-git-main-roggersogao.vercel.app/dashboard" })
+        await signIn("google", { callbackUrl: "https://roggers-portfolio.vercel.app/dashboard" })
         setLoading(prevState => ({ ...prevState, googleLoading: false }))
     }
     const handleGithubLogin = async () => {
         setLoading(prevState => ({ ...prevState, githubLoading: true }))
-        await signIn("github", { callbackUrl: "https://roggers-portfolio-git-main-roggersogao.vercel.app/dashboard" })
+        await signIn("github", { callbackUrl: "https://roggers-portfolio.vercel.app/dashboard" })
         setLoading(prevState => ({ ...prevState, githubLoading: false }))
     }
 
