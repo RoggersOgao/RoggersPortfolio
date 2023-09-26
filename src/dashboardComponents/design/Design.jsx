@@ -71,7 +71,8 @@ function Design({ designs }) {
   };
   useEffect(() => {
     router.refresh();
-  }, [router]);
+  }, [router.refresh]);
+  
   return (
     <div className={styles.container}>
       <ToastContainer style={{ fontSize: "14px", marginTop: "5rem" }} />
