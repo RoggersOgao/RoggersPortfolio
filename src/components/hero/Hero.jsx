@@ -43,7 +43,6 @@ function Hero() {
   ];
   return (
     <motion.div
-      style={{ opacity, scale }}
       className={styles.container}
       ref={targetRef}
     >
