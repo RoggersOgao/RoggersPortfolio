@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const profileAxios = axios.create({
-  baseURL:"https://roggers-portfolio.vercel.app/"
+  baseURL: process.env.NEXTAUTH_URL
 })
 
 export async function updateUserWithoutImage(id, form) {

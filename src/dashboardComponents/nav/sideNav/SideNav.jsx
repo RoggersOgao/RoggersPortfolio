@@ -11,7 +11,7 @@ import 'react-tippy/dist/tippy.css';
 
 function SideNav() {
   const handleLogout = async () => {
-    await signOut("google", { callbackUrl: "https://roggers-portfolio.vercel.app/login" })
+    await signOut("google", { callbackUrl: `${process.env.NEXTAUTH_URL}/login` })
   }
   return (
     <div className={styles.container}>

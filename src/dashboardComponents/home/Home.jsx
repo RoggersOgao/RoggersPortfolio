@@ -64,7 +64,7 @@ function Home({
 
   // handle logout
   const handleLogout = async () => {
-    await signOut("google", { callbackUrl: "https://roggers-portfolio.vercel.app/login" });
+    await signOut("google", { callbackUrl: `${process.env.NEXTAUTH_URL}/login` });
   };
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);

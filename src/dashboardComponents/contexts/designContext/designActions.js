@@ -11,7 +11,7 @@ import { revalidatePath } from "next/cache";
 // import { revalidatePath } from "next/cache";
 
 const designAxios = axios.create({
-  baseURL: "https://roggers-portfolio.vercel.app",
+  baseURL: process.env.NEXTAUTH_URL,
 });
 
 cloudinary.config({
@@ -22,7 +22,7 @@ cloudinary.config({
 
 export const fetchDesignById = async (id) => {
   try {
-    const res = await fetch(`https://roggers-portfolio.vercel.app/api/design?id=${id}`);
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/design?id=${id}`);
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -34,7 +34,7 @@ export const fetchDesignById = async (id) => {
 
 export const fetchDesign = async () => {
   try {
-    const res = await fetch("https://roggers-portfolio.vercel.app/api/design");
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/design`);
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
