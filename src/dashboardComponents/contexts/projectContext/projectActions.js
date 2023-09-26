@@ -12,7 +12,7 @@ import { revalidatePath } from "next/cache";
 import axios from "axios";
 
 const proj = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://roggers-portfolio.vercel.app/",
 });
 
 cloudinary.config({
@@ -23,7 +23,7 @@ cloudinary.config({
 
 export const fetchProject = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/project");
+    const res = await fetch("https://roggers-portfolio.vercel.app/api/project");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -177,7 +177,7 @@ export const uploadData = async (formData) => {
 
 export const fetchProjectById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/project?id=${id}`);
+    const res = await fetch(`https://roggers-portfolio.vercel.app/api/project?id=${id}`);
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }

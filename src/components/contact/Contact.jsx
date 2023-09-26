@@ -69,7 +69,7 @@ function Contact() {
   const handleSendEmail = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const response = await axios.post("http://localhost:3000/api/mail", form)
+    const response = await axios.post("https://roggers-portfolio.vercel.app/api/mail", form)
     setIsLoading(false)
     setMessage(response.data)
     toast.success(response.data, {
