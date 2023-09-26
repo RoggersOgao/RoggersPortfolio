@@ -10,27 +10,5 @@
         "src": "client/package.json",
         "use": "@vercel/static-build"
       }
-    ],
-    "routes": [
-      {
-        "src": "/api/.*",
-        "dest": "/api"
-      },
-      {
-        "src": "/dashboard",
-        "dest": "/dashboard"
-      },
-      {
-        "src": "/dashboard/.*",
-        "dest": "/dashboard/.*"
-      },
-      {
-        "src": "/",
-        "dest": "/"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
     ]
   }
