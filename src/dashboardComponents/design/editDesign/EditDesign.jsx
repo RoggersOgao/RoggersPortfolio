@@ -48,7 +48,7 @@ function EditDesign({designData}) {
       ...designData.design,
     ]);
     setDisplayFiles([...uniqueFiles1]);
-  }, []);
+  }, [designData.design, files]);
 
   // validation of the fields
 

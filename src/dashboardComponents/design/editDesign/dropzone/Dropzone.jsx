@@ -62,7 +62,7 @@ function Dropzone({files, setFiles, displayFiles, setDispalyFiles}) {
             ...rejectedFiles
         ])
     }
-  }, []);
+  }, [setFiles]);
 
   ///revoking data urls to avoid memory leaks 
   useEffect(() => {

@@ -32,7 +32,7 @@ function Corousel({design}) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   const currentImage = images[index];
   return (
