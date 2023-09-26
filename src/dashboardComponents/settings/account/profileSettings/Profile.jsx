@@ -624,7 +624,7 @@ function Profile() {
                         ) : (
                           <Image
                             src="/assets/abstract-colorful-splash-3d-background-generative-ai-background.jpg"
-                            alt="profile picture"
+                            alt="profile picture (image)"
                             width={200}
                             height={200}
                             quality={100}
