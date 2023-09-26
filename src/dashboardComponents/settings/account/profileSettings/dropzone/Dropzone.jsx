@@ -127,7 +127,7 @@ const removeRejected = (name) => {
         ) : (
             <>
             <i><PiUploadLight /></i>
-          <p><span>Click to upload</span> or drag and drop <br/>, PNG, JPEG, JPG <br/> (dropzone disabled 🫠 you don't need it )</p>
+          <p><span>Click to upload</span> or drag and drop <br/>, PNG, JPEG, JPG <br/> (dropzone disabled 🫠 you don&apos;t need it )</p>
           </>
         )}
       </div>
