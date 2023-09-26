@@ -163,7 +163,7 @@ function Portfolio() {
                   <SwiperSlide key={index}>
                     <div className={styles.cont} >
                       <div className={styles.imgCont}>
-                        <Link href="">
+                        <Link href="#">
                           <Image
                             src={item.img}
                             alt={item.alt}

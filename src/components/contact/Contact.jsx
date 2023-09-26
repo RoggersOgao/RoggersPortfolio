@@ -69,20 +69,25 @@ function Contact() {
   const handleSendEmail = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const response = await axios.post(`${process.env.NEXTAUTH_URL}/api/mail`, form)
-    setIsLoading(false)
-    setMessage(response.data)
-    toast.success(response.data, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-    setForm([])
+    try{
+      const response = await axios.post(`http://localhost:3000/api/mail`, form)
+      setIsLoading(false)
+      setMessage(response.data)
+      toast.success(response.data, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setForm([])
+    }catch (err){
+      console.log(err)
+    }
+
   }
 
   return (
