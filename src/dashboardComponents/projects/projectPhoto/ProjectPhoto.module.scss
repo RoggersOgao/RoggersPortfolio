@@ -26,7 +26,7 @@
                         padding:0 0 .5rem 0;
                        h1{
                         font-size:1.8rem;
-                        color:white;
+                        color: var(--white);
                         font-weight:1000;
                        }
                     }
@@ -34,7 +34,7 @@
                         p{
                             font-size:1.3rem;
                             font-weight:700;
-                            color:grey;
+                            color:var(--text-white);
                         }
                     }
                 }

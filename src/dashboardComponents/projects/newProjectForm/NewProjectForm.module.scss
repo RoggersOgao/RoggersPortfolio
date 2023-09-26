@@ -70,7 +70,7 @@
                 padding:.9rem 2rem;
                 border:none;
                 background-color: var(--green-color);
-                color:white;
+                color: var(--white);
                 font-size:1.4rem;
                 font-weight: 900;
                 border-radius:10rem;
@@ -108,7 +108,7 @@
                     border: .3px solid var(--border-grey);
                     border-radius: .6rem;
                     transition:all .3s ease-in-out;
-                    color:white;
+                    color: var(--white);
 
                 }
                 textarea{
@@ -120,7 +120,7 @@
                     height:14rem;
                     font-family: inherit;
                     font-weight: 600;
-                    color:white;
+                    color: var(--white);
                     transition:all .3s ease-in-out;
                 }
                 span{
@@ -147,7 +147,7 @@
                         align-items:center;
                         justify-content:center;
                         gap:1rem;
-                        color:white;
+                        color: var(--white);
                         
 
                         &:hover{

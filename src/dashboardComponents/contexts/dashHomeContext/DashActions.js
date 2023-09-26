@@ -7,6 +7,12 @@ export const dsAddUser = (item) => {
     payload: item,
   };
 };
+export const dsFetchSession = (item) => {
+  return {
+    type:"FETCH_SESSION",
+    payload:item
+    }
+}
 export const dsFetchUser = (item) => {
   return {
     type: "FETCH_USER",
@@ -32,9 +38,34 @@ export function dsClearUser() {
   };
 }
 
+export const fetchProjects = async() => {
+  try {
+    const res = await fetch("http://localhost:3000/api/project");
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
+export const fetchDesigns = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/design");
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export const fetchUser = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/auth/signup");
+    const res = await fetch("http://localhost:3000/api/users");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }

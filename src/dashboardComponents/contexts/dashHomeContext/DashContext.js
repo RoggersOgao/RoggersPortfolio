@@ -6,7 +6,8 @@ const DashContext = createContext()
 export const DashProvider = ({children}) => {
     const initialState ={
         users:[],
-        isLoading:false
+        isLoading:false,
+        session:{}
     }
     const [ state, dispatch] = useReducer(DashReducer, initialState)
 

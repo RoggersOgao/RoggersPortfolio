@@ -12,7 +12,7 @@
     .right{
 
         width:calc(100% - 4rem);
-        padding:5rem 0 0 0;
+        // padding:5rem 0 0 0;
         height:100%;
         @include respond(phone){
             padding: 5rem 0 0 0;

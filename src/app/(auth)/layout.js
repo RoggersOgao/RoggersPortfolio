@@ -3,7 +3,7 @@ export default function RootLayout({
   }) {
     return (
       <section>
-        <nav>nav</nav>
+        {/* <nav>nav</nav> */}
         {children}
       </section>
     )

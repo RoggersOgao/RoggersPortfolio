@@ -49,7 +49,7 @@ function Dropzone({files, setFiles, displayFiles, setDispalyFiles}) {
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles?.length) {
       setFiles((prev) => [
-        ...prev,
+        // ...prev,
         ...acceptedFiles.map((file) =>
           Object.assign(file, { preview: URL.createObjectURL(file) })
         ),

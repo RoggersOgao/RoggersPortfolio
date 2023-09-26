@@ -1,9 +1,19 @@
-import React from 'react'
+"use client"
+import React, { useRef } from 'react'
 import styles from "./Skills.module.scss"
 import Image from 'next/image'
+import { motion, useScroll, useTransform} from "framer-motion"
 
 function Skills() {
 
+    const targetRef = useRef()
+    const { scrollYProgress } = useScroll({
+      target:targetRef,
+      offset:["end end", "end start"]
+    })
+  
+    const opacity = useTransform(scrollYProgress, [0, .5], [1, 0])
+    const scale = useTransform(scrollYProgress, [0, .4], [1, .8])
     const skills = [
         {
             skillImg: "/assets/group_180.svg",
@@ -36,7 +46,20 @@ function Skills() {
 
     ]
     return (
-        <div className={styles.container} id="skills">
+        <motion.div
+        
+        variants = {{
+            hidden:{ opacity:0},
+            visible:{opacity:1}
+        }}
+        initial="hidden"
+        whileInView="visible"
+        transition={{
+            duration:.5,
+        }}
+        style={{opacity, scale}}
+        ref={targetRef}
+     className={styles.container} id="skills">
             {/* skills section */}
             <Image
                 src="/assets/sphere1.svg"
@@ -67,11 +90,25 @@ function Skills() {
                 className={styles.img4}
             />
             <div className={styles.skills}>
-                <div className={styles.skillsTitle}>
+                <motion.div
+                    initial={{
+                        x: -20,
+                        opacity: 0
+                    }}
+                    transition={{
+                        duration: .3
+                    }}
+                    whileInView={{
+                        opacity: 1,
+                        x: 0
+                    }}
+                    className={styles.skillsTitle}>
                     <h1>Skills</h1>
-                </div>
+                </motion.div>
                 {skills.map((item, index) => (
-                    <div className={styles.skillsCont} key={index}>
+                    <div
+                    
+                    className={styles.skillsCont} key={index}>
                         <div className={styles.skillsContLeft}>
                             <Image
                                 src={item.skillImg}
@@ -101,7 +138,7 @@ function Skills() {
             </div>
 
 
-        </div>
+        </motion.div>
     )
 }
 

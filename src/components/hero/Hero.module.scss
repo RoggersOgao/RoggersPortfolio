@@ -85,8 +85,11 @@
                 font-weight: 800;
                 color: var(--text-grey);
                 position: relative;
+                .typedWord{
+                    color:var(--text-grey);
+                }
 
-                span {
+                .name {
                     color: var(--green-color);
                 }
 
@@ -158,12 +161,11 @@
 
         &Right {
             flex: 2;
-            overflow: hidden;
             position: relative;
 
-            @media only screen and (max-width:1094px) {
-                overflow: visible;
-            }
+            // @media only screen and (max-width:1094px) {
+            //     overflow: visible;
+            // }
 
             .lineRight {
                 position: absolute;

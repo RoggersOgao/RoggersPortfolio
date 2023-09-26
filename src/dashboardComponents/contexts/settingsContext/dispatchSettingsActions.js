@@ -4,3 +4,15 @@ export const addFile = (item) => {
     payload:item,
   }
 }
+
+export const isVisible = () => {
+  return {
+    type:"IS_VISIBLE"
+  }
+}
+export const isHidden = () => {
+  return {
+    type:"IS_NOT_VISIBLE"
+  }
+}
+

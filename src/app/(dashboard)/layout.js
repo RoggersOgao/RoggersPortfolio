@@ -10,7 +10,8 @@ export const metadata = {
   description: "Coded by Roggers",
 };
 
-export default function RootLayout({ children, session }) {
+export default async function RootLayout({ children }) {
+
   return (
     <section>
       <Nav />

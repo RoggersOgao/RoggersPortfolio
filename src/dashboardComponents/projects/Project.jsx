@@ -4,11 +4,12 @@ import styles from "./Project.module.scss";
 import Card from "./card/Card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { useSession } from "next-auth/react";
 
 
 function Project({ project }) {
   const router = useRouter();
+  const { data: session } = useSession()
 
   useEffect(() => {
     router.refresh();
@@ -23,11 +24,13 @@ function Project({ project }) {
           </div>
           <div className={styles.smTitle}>
             <h1>Projects</h1>
+            {session?.user?.role == "admin" && (
             <div className={styles.buttonCont}>
               <Link href="/dashboard/projects/newProject">
                 <button>Add new Project</button>
               </Link>
             </div>
+            )}
           </div>
         </div>
         <div className={styles.bottom}>

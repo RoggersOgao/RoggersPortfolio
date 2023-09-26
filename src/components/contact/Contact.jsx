@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useCallback, useContext } from "react";
 import styles from "./Contact.module.scss";
+
 import {
   BiLogoLinkedin,
   BiLogoGithub,
@@ -11,10 +12,15 @@ import {
 import Image from "next/image";
 import { VscError } from "react-icons/vsc";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 function Contact() {
   const [form, setForm] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState()
 
   const setField = (field, value) => {
     setForm({
@@ -60,61 +66,178 @@ function Contact() {
     setFormErrors(errors);
   };
 
+  const handleSendEmail = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    const response = await axios.post("http://localhost:3000/api/mail", form)
+    setIsLoading(false)
+    setMessage(response.data)
+    toast.success(response.data, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    setForm([])
+  }
+
   return (
     <div className={styles.container} id="contact">
+      <ToastContainer style={{ fontSize: "14px", marginTop: "5rem", position: "absolute", top: "200px" }} />
       <div className={styles.title}>
-        <h1>Contact Me</h1>
+        <motion.h1
+          initial={{
+            opacity: 0,
+            x: -20
+          }}
+          transition={{
+            duration: .4
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0
+          }}
+        >Contact Me</motion.h1>
       </div>
       <div className={styles.contact}>
         <div className={styles.contactLeft}>
-          <h1>Get in touch with me today.</h1>
+          <motion.h1
+            initial={{
+              opacity: 0,
+              x: 20
+            }}
+            transition={{
+              duration: .4
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0
+            }}
+          >Get in touch with me today.</motion.h1>
           <div className={styles.contactDesc}>
             <div className={styles.contactDescLeft}>
               <div className={styles.text1}>
-                <p>
+                <motion.p
+                  initial={{
+                    opacity: 0,
+                    x: -20
+                  }}
+                  transition={{
+                    duration: .4
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0
+                  }}
+                >
                   I would love to hear from you! Whether you have a project in
                   mind, want to collaborate, or simply have a question, feel
                   free to reach out. Here&apos;s how you can get in touch:
-                </p>
+                </motion.p>
               </div>
-              <div className={styles.icons}>
-                <i>
-                  <BiLogoLinkedin />
-                </i>
-                <i>
-                  <BiLogoGithub />
-                </i>
-                <i>
-                  <BiLogoTwitter />
-                </i>
-                <i>
-                  <BiLogoGithub />
-                </i>
-                <i>
-                  <BiLogoFacebook />
-                </i>
-                <i>
-                  <BiLogoInstagram />
-                </i>
-              </div>
-              <div className={styles.text2}>
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  x: -20
+                }}
+                transition={{
+                  duration: .4
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0
+                }}
+                className={styles.icons}>
+                <a
+                  href="https://www.linkedin.com/in/roggers-ogao-b35718202/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoLinkedin />
+                  </i>
+
+                </a>
+                <a href="https://github.com/RoggersOgao"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoGithub />
+                  </i>
+                </a>
+                <a href="https://twitter.com/RoggersOgao"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoTwitter />
+                  </i>
+                </a>
+                <a href="https://facebook.com/RoggersOgao"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoFacebook />
+                  </i>
+                </a>
+
+                <a
+                  href="https://www.instagram.com/roggers_ogao/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                ><i>
+                    <BiLogoInstagram />
+                  </i></a>
+
+              </motion.div>
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  x: 20
+                }}
+                transition={{
+                  duration: .4
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0
+                }}
+                className={styles.text2}>
                 <p>
                   Let&apos;s connect and discuss how we can work together to
                   bring your ideas to life.Don&apos;t hesitate to drop me a
                   lineor connect through any of the above channels. I am looking
                   forward tohearing from you soon!
                 </p>
-              </div>
-              <div className={styles.text3}>
+              </motion.div>
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  x: -20
+                }}
+                transition={{
+                  duration: .4
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0
+                }}
+                className={styles.text3}>
                 <p>
                   Please note: Due to the high volume of inquiries, response
                   times may vary. However,I make it a priority to respond to all
                   messages in a timely manner.Thank you foryour understanding.
                 </p>
-              </div>
+              </motion.div>
             </div>
             <div className={styles.contactDescRight}>
-              <form className={styles.form}>
+              <form className={styles.form} onSubmit={handleSendEmail}>
                 <div className={styles.formGroup}>
                   <label htmlFor="name">Name*</label>
                   <input
@@ -202,7 +325,7 @@ function Contact() {
                 </div>
                 <div className={styles.formGroup}>
                   <div className={styles.btnCont}>
-                    <button type="submit">Send</button>
+                    <button type="submit">{isLoading ? <CircularBar /> : "Send"}</button>
                   </div>
                 </div>
               </form>

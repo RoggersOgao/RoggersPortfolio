@@ -84,7 +84,7 @@
                                 font-size:1.1rem;
                                 font-weight:600;
                                 padding:1rem .3rem;
-                                color:grey;
+                                color:var(--text-white);
                             }
                         }
                     }
@@ -130,13 +130,13 @@ h2{
                                 font-weight: 600;
                                 display: flex;
                                 align-items: center;
-                                color:white;
+                                color: var(--white);
                                 display:flex;
                                 gap:1rem;
                                 cursor:pointer;
                                 .icon{
                                     font-size:1.5rem;
-                                    color:white;
+                                    color: var(--white);
                                 }
                             }
          

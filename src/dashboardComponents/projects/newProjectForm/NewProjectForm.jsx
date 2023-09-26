@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
+import { useSession } from "next-auth/react"
 
 const animatedComponents = makeAnimated();
 
@@ -22,6 +24,7 @@ function NewProjectForm() {
   const [techl, setTechl] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session } = useSession()
 
   const formRef = useRef();
   const selectRef = useRef(null);
@@ -126,11 +129,20 @@ function NewProjectForm() {
       router.push("/dashboard/projects");
     } catch (err) {
       console.log(err);
-      alert("error uploading file");
+      toast.error(err.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
-  return (
+  return session ?(
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         Pro
@@ -138,7 +150,7 @@ function NewProjectForm() {
         ject
       </h1>
       <div className={styles.formContainer}>
-      <ToastContainer style={{ fontSize: "14px", marginTop:"5rem" }} />
+      
         <div className={styles.title}>
           <h1>New Project</h1>
           <Link href="/dashboard/projects">
@@ -305,13 +317,15 @@ function NewProjectForm() {
           <div className={styles.formGroup}>
             <div className={styles.btnGroup}>
               <button type="submit">
-                {isLoading ? <PiSpinnerLight /> : "Publish"}
+                {isLoading ? <CircularBar /> : "Publish"}
               </button>
             </div>
           </div>
         </form>
       </div>
     </div>
+  ) : (
+    <p>You are not allowed to view this page.....🫠 </p>
   );
 }
 

@@ -1,11 +1,16 @@
-"use client"
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { redirect } from "next/navigation";
 import React from 'react'
 import styles from "./Nav.module.scss"
-import { useSession} from "next-auth/react"
-import redirect from 'next/navigation'
 import TopNav from './topNav/TopNav'
-function Nav() {
-    const { data: session } = useSession()
+
+async function Nav() {
+    const session = await getServerSession(options)
+  if(!session){
+      redirect("/login")
+  }
+  
     return session ? (
         <div className={styles.container}>
             <TopNav session={session}  />

@@ -3,16 +3,17 @@
 .container {
 
     .profile {
-        .profileForm {
+        display: flex;
+        gap: 2rem;
 
-            display: flex;
-            gap: 2rem;
+        .profileForm {
+            flex: 3;
+            background-color: var(--dark-grey);
+            padding: 3rem;
+            border-radius: 1rem;
+
 
             .profileLeft {
-                flex: 3;
-                background-color: var(--dark-grey);
-                padding: 3rem;
-                border-radius: 1rem;
 
                 .cont {
                     display: grid;
@@ -39,13 +40,14 @@
                         text-transform: uppercase;
                         padding-bottom: 1rem;
                     }
-                    span{
-                        color:red;
-                        padding-top:.9rem;
-                        font-size:1.3rem;
-                        display:flex;
-                        align-items:center;
-                        gap:.7rem;
+
+                    span {
+                        color: red;
+                        padding-top: .9rem;
+                        font-size: 1.3rem;
+                        display: flex;
+                        align-items: center;
+                        gap: .7rem;
                         font-weight: 700;
                     }
 
@@ -53,15 +55,15 @@
                     input {
                         border: none;
                         background-color: transparent;
-                            border: .3px solid rgba(89, 89, 89, 0.461);
+                        border: .3px solid rgba(89, 89, 89, 0.461);
                         padding: 1.4rem 1rem;
                         transition: all .4s ease-in-out;
                         font-family: inherit;
-                        border-radius:1rem;
-                        
+                        border-radius: 1rem;
+
                         font-weight: 700;
-                        color: var(--text-color);
-                        
+                        color: var(--white-variant);
+
                         &:focus {
                             outline: none;
                             border: 1px solid rgb(255, 255, 255);
@@ -72,7 +74,7 @@
                             opacity: 1;
                             font-size: 1.3rem;
                             color: grey;
-                            padding:.3rem;
+                            padding: .3rem;
                         }
 
                         &:focus::placeholder {
@@ -80,20 +82,20 @@
                         }
                     }
 
-                    .button{
-                        button{
-                            padding:1.4rem 3rem;
-                            font-size:1.4rem;
-                            font-weight:600;
-                            border-radius:10rem;
-                            background-color:var(--green-color);
-                            border:none;
-                            cursor:pointer;
-                            transition:background-color .4s ease-in-out;
-                            color:white;
+                    .button {
+                        button {
+                            padding: 1.4rem 3rem;
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                            border-radius: 10rem;
+                            background-color: var(--green-color);
+                            border: none;
+                            cursor: pointer;
+                            transition: background-color .4s ease-in-out;
+                            color: var(--white);
 
-                            &:hover{
-                                background-color:green;
+                            &:hover {
+                                background-color: green;
                             }
                         }
                     }
@@ -107,9 +109,9 @@
                     padding: 2rem 1rem;
                     transition: all .4s ease-in-out;
                     font-family: inherit;
-                    color: var(--text-color);
+                    color: var(--white-variant);
                     font-weight: 700;
-                    border-radius:1rem;
+                    border-radius: 1rem;
                     font-size: 1.4rem;
 
 
@@ -155,11 +157,11 @@
                             justify-content: space-between;
                             padding: 1.5rem;
                             border-radius: 1rem;
-                            color: var(--text-grey);
+                            color: var(--white-variant);
                             font-family: inherit;
                             font-weight: 700;
 
-                            &:focus{
+                            &:focus {
                                 border: 1px solid rgb(255, 255, 255);
                             }
                         }
@@ -167,24 +169,28 @@
                         &List {
                             // display:none;
                             position: relative;
+
                             ul {
-                                position:absolute;
-                                top:1rem;
-                                width:100%;
+                                position: absolute;
+                                top: 1rem;
+                                width: 100%;
                                 list-style-type: none;
                                 background-color: var(--background-grey);
                                 border-radius: 1rem;
                                 overflow: hidden;
+
                                 li {
 
-                                    font-size:1.3rem;
+                                    font-size: 1.3rem;
                                     font-weight: 700;
                                     font-family: inherit;
-                                    padding:1.4rem 1rem;
-                                    &:not(:last-child){
+                                    padding: 1.4rem 1rem;
+
+                                    &:not(:last-child) {
                                         border-bottom: .3px solid var(--border-grey);
                                     }
-                                    &:hover{
+
+                                    &:hover {
                                         background-color: rgba(128, 128, 128, 0.275);
                                     }
                                 }
@@ -194,108 +200,171 @@
                 }
             }
 
+        }
+
+        .uploadPhotoContainer {
+            flex: 1;
+            background-color: var(--dark-grey);
+            min-height: 30rem;
+            max-height: 50rem;
+            border-radius: 1rem;
+            position: sticky;
+            top: 10rem;
+
             .profileRight {
-                flex: 1;
-                background-color: var(--dark-grey);
-                min-height: 30rem;
-                max-height: 50rem;
-                border-radius:1rem;
-                position:sticky;
-                top:10rem;
 
-              &Title{
-                border-bottom: .3px dashed var(--text-grey);
-                display:flex;
-                align-items: center;
-                justify-content: space-between;
-                h1{
-                    font-weight: 1000;
-                    font-size:2.2rem;
+                &Title {
+                    border-bottom: .3px dashed var(--text-grey);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
 
-                    padding:2rem 0 1rem 2rem;
-                }
-                .addButton{
-                    padding:2rem 2rem 1rem 0;
-                    button{
-                        padding:.9rem 1rem;
-                        border:none;
-                        background-color: var(--green-color);
-                        color:white;
-                        border-radius:9rem;
+                    h1 {
+                        font-weight: 1000;
+                        font-size: 2.2rem;
+
+                        padding: 2rem 0 1rem 2rem;
                     }
-                }
-              }
 
-              .profileAvatarContainer{
-                
-                &Top{
-                    display:flex;
-                padding:2rem;
-                align-items: center;
-                gap:1rem;
+                    .addButton {
+                        padding: 2rem 2rem 1rem 0;
 
-                &Left{
-                    .imgCont{
-                        width:6rem;
-                        height:6rem;
-                        border-radius: 50%;
-                        overflow: hidden;
-                        .avatar{
-                            width:100%;
-                            height:100%;
-                            object-fit: cover;
-                            object-position: center;
+                        button {
+                            padding: .9rem 1rem;
+                            border: none;
+                            background-color: var(--green-color);
+                            color: var(--white);
+                            border-radius: 9rem;
                         }
                     }
                 }
-                &Right{
-                    .top{
-                        h3{
-                            font-weight: 900;
-                            font-size:1.6rem;
-                        }
-                    }
-                    .bottom{
-                        display:flex;
-                        gap:1rem;
-                        padding:.4rem 0;
-                        
-                        button{
-                            background-color: transparent;
-                            border:none;
-                            color:white;
-                            font-weight: 700;
-                            font-size:1.2rem;
-                            border-bottom:.3px solid transparent;
 
-                            &:hover{
-                                cursor:pointer;
-                            }
-                        }
-                        .button1{
-                            button{
-                                transition: all .3s ease;
-                                color:var(--blue-color);
-                                &:hover{
-                                    border-bottom:.3px solid var(--blue-color);
+                .profileAvatarContainer {
+
+                    &Top {
+                        display: flex;
+                        padding: 2rem;
+                        align-items: center;
+                        gap: 1rem;
+
+                        &Left {
+                            .imgCont {
+                                width: 6rem;
+                                height: 6rem;
+                                border-radius: 50%;
+                                overflow: hidden;
+
+                                .avatar {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    object-position: center;
                                 }
-                                
-                            }
-                        }
-                        .button2{
-                            button{
-                                transition: all .3s ease;
-                                color:Red;
-                                &:hover{
-                                    border-bottom:.3px solid red;
+                                .loadingUserImage{
+                                    width:100%;
+                                    height:100%;
+                                    background-color: var(--text-white);
+                                    animation: blinking 2s ease-in-out alternate infinite;
                                 }
                             }
                         }
+
+                        &Right {
+                            .top {
+                                h3 {
+                                    font-weight: 900;
+                                    font-size: 1.6rem;
+                                }
+                            }
+
+                            .bottom {
+                                display: flex;
+                                gap: 1rem;
+                                padding: .4rem 0;
+
+                                .btn1 {
+                                    width: 5rem;
+                                    height: 1.5rem;
+                                    border-radius: .4rem;
+                                    background-color: var(--blue-color);
+                                    animation: blinking 2s ease-in-out alternate infinite;
+                                }
+
+                                .btn2 {
+                                    width: 5rem;
+                                    height: 1.5rem;
+                                    border-radius: .4rem;
+                                    background-color: red;
+                                    animation: blinking 2s ease-in-out alternate infinite;
+                                }
+
+                                button {
+                                    background-color: transparent;
+                                    border: none;
+                                    color: var(--white);
+                                    font-weight: 700;
+                                    font-size: 1.2rem;
+                                    border-bottom: .3px solid transparent;
+
+                                    &:hover {
+                                        cursor: pointer;
+                                    }
+                                }
+
+                                .button1 {
+                                    button:disabled{
+                                        color:grey;
+                                        &:hover {
+                                            border-bottom: .3px solid rgb(64, 64, 64);
+                                        }
+                                    }
+                                    button {
+                                        transition: all .3s ease;
+                                        color: var(--blue-color);
+
+                                        &:hover {
+                                            border-bottom: .3px solid var(--blue-color);
+                                        }
+
+                                    }
+                                }
+
+                                .button2 {
+                                    button:disabled{
+                                        color:grey;
+                                        &:hover {
+                                            border-bottom: .3px solid rgb(64, 64, 64);
+                                        }
+                                    }
+                                    button {
+                                        transition: all .3s ease;
+                                        color: Red;
+
+                                        &:hover {
+                                            border-bottom: .3px solid red;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-                }
-              }
             }
         }
+    }
+}
+
+
+@keyframes blinking {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
     }
 }

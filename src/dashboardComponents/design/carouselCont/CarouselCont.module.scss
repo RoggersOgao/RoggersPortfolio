@@ -44,7 +44,7 @@
             display:flex;
             align-items: center;
             justify-content: center;
-            color:white;
+            color: var(--white);
 
         }
         &:hover{
@@ -77,7 +77,7 @@
             }
             p{
                 font-size:1.2rem;
-                color:grey;
+                color:var(--text-white);
                 font-weight:700;
                 padding: 1rem 0 2rem 0;
             }
@@ -106,7 +106,7 @@
             border-radius: 50%;
             
             i{
-                color:white;
+                color: var(--white);
             }
         }
         .instagram{

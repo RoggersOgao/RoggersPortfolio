@@ -11,6 +11,7 @@ export const SettingsProvider = ({children}) => {
         users: [],
         loading: true,
         file:[],
+        
         isVisible:false
     }
     const [state, dispatch] = useReducer(SettingsReducer, initialState)

@@ -1,8 +1,9 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styles from "./Portfolio.module.scss"
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion, useScroll, useTransform } from "framer-motion"
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -13,7 +14,14 @@ import "swiper/css/pagination";
 import { Pagination, Keyboard } from "swiper/modules";
 
 function Portfolio() {
+  const targetRef = useRef()
+  const { scrollYProgress } = useScroll({
+    target:targetRef,
+    offset:["end end", "end start"]
+  })
 
+  const opacity = useTransform(scrollYProgress, [0.5, 1], [1, 0])
+  const scale = useTransform(scrollYProgress, [0.5, 1], [1, .8])
   const Plist = [
     {
       img: "/assets/portfolio.png",
@@ -75,10 +83,24 @@ function Portfolio() {
     setSelectedType(type);
   };
   return (
-    <div className={styles.container} id="portfolio">
+    <motion.div
+    style={{opacity, scale}}
+    className={styles.container} id="portfolio" ref={targetRef}>
       <div className={styles.portfolio}>
         <div className={styles.portfolioTitle}>
-          <h1>Portfolio</h1>
+          <motion.h1
+          initial={{
+            opacity:0,
+            x:-20
+          }}
+          transition={{
+            duration:.4
+          }}
+          whileInView={{
+            opacity:1,
+            x:0
+          }}
+          >Portfolio</motion.h1>
         </div>
         <div className={styles.portfolioButtons}>
           <button
@@ -159,7 +181,7 @@ function Portfolio() {
           </>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

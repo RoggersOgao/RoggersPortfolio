@@ -9,6 +9,8 @@
   --dash-red:#bc4749;
   --blue-color:rgb(0, 68, 255);
   --dark-grey:rgba(46, 46, 46, 0.604);
+  --white-variant: #aaaaaa;
+  --white:white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,7 +38,7 @@ html,
 body {
   font-size:10px;
   -webkit-animation-duration: smooth;
-  color:white;
+  color: var(--white);
 }
 
 body {
@@ -44,7 +46,7 @@ body {
   overflow-x: hidden;
   margin:0 auto;
   background-color:var(--background-grey);
-  color:white;
+  color: var(--white);
   
 }
 

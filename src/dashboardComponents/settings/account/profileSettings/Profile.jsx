@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef, useContext, useMemo } from "react";
 import styles from "./Profile.module.scss";
 import { PiCaretUpDownBold } from "react-icons/pi";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,41 +6,70 @@ import { VscError } from "react-icons/vsc";
 import Image from "next/image";
 import Dropzone from "./dropzone/Dropzone";
 import SettingsContext from "@/dashboardComponents/contexts/settingsContext/SettingsContext";
-
+import { updateUserWithoutImage } from "@/dashboardComponents/contexts/settingsContext/settingsActions";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
+import { isVisible } from "@/dashboardComponents/contexts/settingsContext/dispatchSettingsActions";
 function Profile() {
-  const { state } = useContext(SettingsContext);
+  const { data: session } = useSession();
+  const { state, dispatch } = useContext(SettingsContext);
   const [roleDropdownActive, setRoleDropdownActive] = useState(false);
-  const [activeRole, setActiveRole] = useState("user");
-  const roleRef = useRef();
   const [form, setForm] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [files, setFiles] = useState([]);
   const [displayFiles, setDisplayFiles] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const socialLinks = [
-    { linkedIn: form.linkedIn || "" },
-    { twitter: form.twitter || "" },
-    { github: form.github || "" },
-    { instagram: form.instagram || "" },
-    { facebook: form.facebook || "" },
-  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  // console.log(session)
+  const roleRef = useRef();
 
-  const pProfile = [
-    { location: form.location || "" },
-    { company: form.company || "" },
-    { bio: form.bio || "" },
-  ];
+  const userData = useMemo(() => {
+    if (session) {
+      const { user } = session;
+      const { personalInfo, socials } = user;
 
-  const formToBeUploadedData = {
-    name: form.name || "",
-    email: form.email || "",
-    socials: socialLinks || [],
-    personalInfo: pProfile || [],
-    role: form.role || "",
-  };
+      return {
+        name: user.name || "",
+        email: user.email || "",
+        location: personalInfo?.[0]?.location || "",
+        company: personalInfo?.[0]?.company || "",
+        bio: personalInfo?.[0]?.bio || "",
+        linkedIn: socials?.[0]?.linkedIn || "",
+        twitter: socials?.[0]?.twitter || "",
+        github: socials?.[0]?.github || "",
+        instagram: socials?.[0]?.instagram || "",
+        facebook: socials?.[0]?.facebook || "",
+        role: user.role || "",
+      };
+    }
 
-  // console.log(formToBeUploadedData);
+    // Return default values or an empty object when session is not available.
+    return {};
+  }, [session]);
+
+  useEffect(() => {
+    setForm({
+      name: userData.name,
+      email: userData.email,
+      location: userData.location,
+      company: userData.company,
+      bio: userData.bio,
+      linkedIn: userData.linkedIn,
+      twitter: userData.twitter,
+      github: userData.github,
+      instagram: userData.instagram,
+      facebook: userData.facebook,
+      role: userData.role,
+    });
+  }, [userData, setForm]);
+
+  // ...
+
+  // Use userData in your component instead of directly using session.
 
   // handle click outside logic using useEffect
   useEffect(() => {
@@ -150,18 +179,59 @@ function Profile() {
   };
 
   // updating the form field role
-
   const handleActiveRole = (name) => {
     setField("role", name);
   };
 
-  // console.log(form);
-  // console.log(formErrors);
+  const userId = session?.user?._id;
 
+  // Handling the submission of the form...
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await updateUserWithoutImage(userId, form);
+      console.log(response);
+      setIsLoading(false);
+      router.refresh();
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (err) {
+      toast.success(err.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+  const handleUpdateImage = async (e) => {
+    e.preventDefault();
+
+    if(state.files.length > 0){
+      // ill update the code for this much later.....
+    }
+
+  };
+
+  console.log(state)
   return (
     <div className={styles.container}>
+      <ToastContainer style={{ fontSize: "14px", marginTop: "5rem" }} />
       <div className={styles.profile}>
-        <form className={styles.profileForm}>
+        <form className={styles.profileForm} onSubmit={handleUpdateProfile}>
           <div className={styles.profileLeft}>
             <div className={styles.cont}>
               {/* full name */}
@@ -201,11 +271,11 @@ function Profile() {
                   placeholder="eg. example@xyz.com"
                   autoComplete="off"
                   style={{ border: formErrors.email ? ".3px solid red" : "" }}
+                  value={form?.email || ""}
                   onChange={(e) => {
                     setField("email", e.target.value),
                       validateField("email", e.target.value);
                   }}
-                  value={form?.email || ""}
                 />
                 <AnimatePresence>
                   {formErrors.email && (
@@ -425,8 +495,8 @@ function Profile() {
                 </AnimatePresence>
               </div>
               {/* role */}
-
-              <div className={styles.dropdownContainer} ref={roleRef}>
+                    {session?.user?.role == "admin" && (
+                      <div className={styles.dropdownContainer} ref={roleRef}>
                 <label htmlFor="role">Role</label>
                 <div className={styles.dropdown}>
                   <button
@@ -439,8 +509,8 @@ function Profile() {
                     Role ({form?.role ? form?.role : "user"})
                     <PiCaretUpDownBold />
                   </button>
+                  <AnimatePresence>
                   {roleDropdownActive && (
-                    <AnimatePresence>
                       <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -469,10 +539,12 @@ function Profile() {
                           </motion.li>
                         </ul>
                       </motion.div>
-                    </AnimatePresence>
                   )}
+                    </AnimatePresence>
                 </div>
               </div>
+                    )}
+              
               {/* bio */}
               <div className={styles.formGroup}>
                 <label htmlFor="bio">Bio</label>
@@ -503,45 +575,91 @@ function Profile() {
               {/* button */}
               <div className={styles.formGroup}>
                 <div className={styles.button}>
-                  <button type="submit">Publish</button>
+                  <button type="submit">
+                    {isLoading ? <CircularBar /> : "Update Profile"}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <div className={styles.profileRight}>
+        </form>
+        <div className={styles.uploadPhotoContainer}>
+          <form className={styles.profileRight}>
             <div className={styles.profileRightTitle}>
               <h1>Your photo</h1>
+              {session?.user?.role == "admin" && (
               <div className={styles.addButton}>
-                <button type="button">Add New User</button>
+                <button type="button" onClick={() => dispatch(isVisible())}>Add New User</button>
               </div>
+              )}
             </div>
             <div className={styles.profileAvatarContainer}>
               <div className={styles.profileAvatarContainerTop}>
                 <div className={styles.profileAvatarContainerTopLeft}>
-                  {state.file.map((item, index) => (
-                    <div className={styles.imgCont} key={index}>
-                      <Image
-                        src="/assets/abstract-colorful-splash-3d-background-generative-ai-background.jpg"
-                        alt="dafdfadfdafdfdasfadsf"
-                        width={100}
-                        height={100}
-                        className={styles.avatar}
-                        loading="lazy"
-                      />
+                  {state.file.length > 0 ? (
+                    state.file.map((file, index) => (
+                      <div className={styles.imgCont} key={index}>
+                        <Image
+                          src={file.preview ? file.preview : file.secure_url}
+                          alt={`Image ${index + 1}`} // You might want to add a meaningful alt text
+                          width={100}
+                          height={100}
+                          className={styles.avatar}
+                          loading="lazy"
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <div className={styles.imgCont} key={0}>
+                      {session ? (
+                        session?.user?.image ? (
+                          <Image
+                            src={session?.user?.image}
+                            alt="profile picture"
+                            width={200}
+                            height={200}
+                            quality={100}
+                            className={styles.image}
+                          />
+                        ) : (
+                          <Image
+                            src="/assets/abstract-colorful-splash-3d-background-generative-ai-background.jpg"
+                            alt="profile picture"
+                            width={200}
+                            height={200}
+                            quality={100}
+                            className={styles.image}
+                          />
+                        )
+                      ) : (
+                        <div className={styles.loadingUserImage}></div>
+                      )}
                     </div>
-                  ))}
+                  )}
                 </div>
+
                 <div className={styles.profileAvatarContainerTopRight}>
                   <div className={styles.top}>
                     <h3>Edit your photo</h3>
                   </div>
                   <div className={styles.bottom}>
-                    <div className={styles.button1}>
-                      <button type="button">Update</button>
-                    </div>
-                    <div className={styles.button2}>
-                      <button type="button">Delete</button>
-                    </div>
+                    {session ? (
+                      <>
+                        <div className={styles.button1}>
+                          <button type="submit" disabled onSubmit={handleUpdateImage}>
+                            Update
+                          </button>
+                        </div>
+                        <div className={styles.button2}>
+                          <button disabled type="button">Delete</button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className={styles.btn1}></div>
+                        <div className={styles.btn2}></div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -554,8 +672,8 @@ function Profile() {
                 />
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@
                     list-style-type:none;
                     li{
                         transition: all .4s ease-in-out;
-                        color:white;
+                        color: var(--white);
                         border-bottom:.3px solid rgba(85, 255, 0, 0.763);
                         &:hover{
                             transform: scale(1.1);

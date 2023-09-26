@@ -1,18 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./Home.module.scss";
 import { HiOutlineCube } from "react-icons/hi";
 import { GiEagleHead } from "react-icons/gi";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 import { ResponsiveCalendar } from "@nivo/calendar";
 // import { data } from "./data";
-import { SiMailchimp } from "react-icons/si";
+import { SiAltiumdesigner, SiCodeproject, SiMailchimp } from "react-icons/si";
 import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+function Home({
+  combinedUsers,
+  numGoogleUsers,
+  numGithubUsers,
+  combinedUsersForCalendar,
+  projects,
+  designs
+}) {
 
-function Home({ combinedUsers, numGoogleUsers, numGithubUsers }) {
+
+
+  const numberOfDesigns = designs.designs
+  const numberOfProjects = projects.projects
+
+  const { data: session } = useSession();
   // generate data to show on calendar
-
   function generateCalaendarItem(data) {
     const dailyCount = data.reduce((accumulator, currentItem) => {
       // Extract the date from the createdAt property
@@ -37,10 +50,10 @@ function Home({ combinedUsers, numGoogleUsers, numGithubUsers }) {
     return result;
   }
 
-  const totalUsers=combinedUsers.length
+  const totalUsers = combinedUsers.length;
 
-//   get the data in the form val and day
-const data = generateCalaendarItem(combinedUsers);
+  //   get the data in the form val and day
+  const data = generateCalaendarItem(combinedUsersForCalendar);
   // count users per year
   function countUsersForYear(currentYear) {
     const usersRegisteredInYear = combinedUsers.filter(
@@ -53,7 +66,6 @@ const data = generateCalaendarItem(combinedUsers);
   const handleLogout = async () => {
     await signOut("google", { callbackUrl: "http://localhost:3000/login" });
   };
-  const { data: session } = useSession();
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
@@ -103,29 +115,67 @@ const data = generateCalaendarItem(combinedUsers);
       <div className={styles.homeBottom}>
         <div className={styles.profile}>
           <div className={styles.profileTop}>
-            <Image
-              src={session?.user?.image}
-              alt="profile picture"
-              width={200}
-              height={200}
-              quality={100}
-              className={styles.image}
-            />
+
+            {!session ? (
+              <div className={styles.profileTopImgLoading}></div>
+            ) : (
+              session?.user?.image ? (
+                <Image
+                  src={session?.user?.image}
+                  alt="profile picture"
+                  width={200}
+                  height={200}
+                  quality={100}
+                  className={styles.image}
+                />
+              ) : (
+                <Image
+                  src="https://res.cloudinary.com/dhk9gwc4q/image/upload/v1690988668/samples/animals/three-dogs.jpg"
+                  alt="profile picture"
+                  width={200}
+                  height={200}
+                  quality={100}
+                  className={styles.image}
+                />
+              )
+            )}
           </div>
           <div className={styles.profileBottom}>
             <div className={styles.desc}>
-              <p className={styles.name}>
-                {session?.user?.name} <span>👽</span>
-              </p>
-              <p className={styles.email}>
-                <SiMailchimp /> {session?.user?.email}
-              </p>
-              <div className={styles.buttonGroup}>
-                <p className={styles.editProfile}>Edit Profile</p>
-                <p className={styles.signOut} onClick={handleLogout}>
-                  Sign Out
+              {!session?.user?.name ? (
+                <div className={styles.loadingName}></div>
+              ) : (
+                <p className={styles.name}>
+                  {session?.user?.name.split(" ").slice(0, 2).join(" ")}
+                  <span>👽</span>
                 </p>
-              </div>
+              )}
+
+              {!session?.user.email ? (
+                <div className={styles.loadingEmail}></div>
+              ) : (
+                <p className={styles.email}>
+                  <SiMailchimp /> {session?.user?.email}
+                </p>
+              )}
+
+              {session ? (
+                <div className={styles.buttonGroup}>
+                  <p className={styles.editProfile}>
+                    <Link href="/dashboard/settings">
+                    Edit Profile
+                    </Link>
+                    </p>
+                  <p className={styles.signOut} onClick={handleLogout}>
+                    Sign Out
+                  </p>
+                </div>
+              ) : (
+                <div className={styles.buttonGroup}>
+                  <div className={styles.loadingEditProfile}></div>
+                  <div className={styles.loadingSignOut}></div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -183,13 +233,12 @@ const data = generateCalaendarItem(combinedUsers);
                 },
               ]}
             />
-
             <div className={styles.stats}>
               <div className={styles.github}>
-                <p>Github Sign-ins: { numGithubUsers }</p>
+                <p>Github Sign-ins: {numGithubUsers}</p>
               </div>
               <div className={styles.google}>
-                <p>Google Sign-ins: { numGoogleUsers }</p>
+                <p>Google Sign-ins: {numGoogleUsers}</p>
               </div>
               <div className={styles.github}>
                 <p>Total users: {totalUsers}</p>
@@ -198,6 +247,35 @@ const data = generateCalaendarItem(combinedUsers);
           </div>
           <div className={styles.yearsButton}>
             <div className={styles.buttonCont}>{renderYearList()}</div>
+            <div className={styles.containerRight}>
+              <div className={styles.projects}>
+                <div className={styles.left}>
+                  <div className={styles.leftTop}>
+                  <h1>{numberOfProjects.length > 1 ? "Projects" : "project"}</h1>
+                  </div>
+                  <div className={styles.leftBottom}>
+                  <h1>{numberOfProjects.length || 0}</h1>
+                  </div>
+                </div>
+                <div className={styles.right}>
+                  <SiCodeproject className={styles.icon}/>
+                </div>
+              </div>
+              <div className={styles.designs}>
+                
+                <div className={styles.left}>
+                  <div className={styles.leftTop}>
+                  <h1>{numberOfDesigns.length > 1 ? "Designs" : "Design"}</h1>
+                  </div>
+                  <div className={styles.leftBottom}>
+                  <h1>{numberOfDesigns.length || 0}</h1>
+                  </div>
+                </div>
+                <div className={styles.right}>
+                <SiAltiumdesigner className={styles.icon}/>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

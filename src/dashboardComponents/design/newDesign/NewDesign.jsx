@@ -12,9 +12,17 @@ import Link from "next/link";
 import { uploadDesign } from "@/dashboardComponents/contexts/designContext/designActions";
 import DesignContext from "@/dashboardComponents/contexts/designContext/DesignContext";
 import { AddDesign } from "@/dashboardComponents/contexts/designContext/dispatchDesignActions";
+import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
+import { useSession } from "next-auth/react";
 
 function NewDesign() {
   const { state, dispatch} = useContext(DesignContext)
+    const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/login')
+    }
+  })
   const [form, setForm] = useState({});
   const [files, setFiles] = useState([]);
   const [formErrors, setFormErrors] = useState({});
@@ -95,7 +103,7 @@ function NewDesign() {
     }
   };
 
-  return (
+  return session ?(
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         des
@@ -152,13 +160,15 @@ function NewDesign() {
           <div className={styles.formGroup}>
             <div className={styles.btnGroup}>
               <button type="submit">
-                {isLoading ? <PiSpinnerLight /> : "Publish Design"}
+                {isLoading ? <CircularBar /> : "Publish Design"}
               </button>
             </div>
           </div>
         </form>
       </div>
     </div>
+  ): (
+    <p>You are not allowed to view this page.....🫠 </p>
   );
 }
 

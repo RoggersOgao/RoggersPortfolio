@@ -47,7 +47,6 @@ function Dropzone({files, setFiles, displayFiles, setDisplayFiles}) {
 
   const [rejected, setRejected] = useState([])
   const {state, dispatch} = useContext(SettingsContext)
-  console.log(state)
 
   files = files.length === 0 ? displayFiles : files;
   
@@ -58,7 +57,7 @@ function Dropzone({files, setFiles, displayFiles, setDisplayFiles}) {
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles?.length) {
       setFiles((prev) => [
-        ...prev,
+        // ...prev,
         ...acceptedFiles.map((file) =>
           Object.assign(file, { preview: URL.createObjectURL(file) })
         ),
@@ -96,6 +95,7 @@ const removeRejected = (name) => {
      multiple: true,
     //  maxFiles:1,
     //  validator:imageValidator,
+    disabled:true,
      accept: {
         'image/*': ['.jpeg', '.png', ".jpg"]
       }
@@ -127,49 +127,12 @@ const removeRejected = (name) => {
         ) : (
             <>
             <i><PiUploadLight /></i>
-          <p><span>Click to upload</span> or drag and drop <br/>, PNG, JPEG, JPG <br/> (1 Image)</p>
+          <p><span>Click to upload</span> or drag and drop <br/>, PNG, JPEG, JPG <br/> (dropzone disabled 🫠 you don't need it )</p>
           </>
         )}
       </div>
       <div className={styles.previewContainer}>
-        <ul className={styles.accepted}>
-          {files.map((file, index) => (
-            <div className={styles.prev} key={index}>
-                <li>
-                    <div className={styles.uploadedContent}>
-                        <div className={styles.close} onClick={()=> removeFile(file.name ? file.name : file.original_filename)}>
-                            <AiOutlineCloseCircle />
-                        </div>
-                   <div className={styles.uploadedContentImg}>
-                   <Image
-                    src={file.preview ? file.preview : file.secure_url}
-                    alt={file.name ? file.name : file.original_filename}
-                    width={100}
-                    height={100}
-                    className={styles.prevImg}
-                    placeholder="blur"
-                    blurDataURL={file.preview ? file.preview : file.secure_url}
-                    // onLoad={()=>{
-                    //     URL.revokeObjectURL(file.preview)
-                    // }}
-                />
-                   </div>
-                   <div className={styles.uploadedContentDesc}>
-                    <div className={styles.type}>
-                        <p>{file.type ? file.type : file.original_extension}</p>
-                        <p>{convertToKibOrMib(file.size ? file.size : file.bytes)}</p>
-                    </div>
-                    <p className={styles.name}>{file.name ? file.name : file.original_filename}</p>
-                   </div>
-
-                    </div>
-                
-                </li>
-            </div>
-          ))}
-        </ul>
-
-
+      
         {/* rejected files section */}
 
         <ul className={styles.rejected}>

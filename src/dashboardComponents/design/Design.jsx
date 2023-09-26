@@ -18,7 +18,10 @@ import {
 import { deleteDesign } from "../contexts/designContext/designActions";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
+import { useSession } from "next-auth/react";
+
 function Design({ designs }) {
+  const {data: session } = useSession()
   const { dispatch } = useContext(DesignContext);
   const [actionsVisible, setActionsVisible] = useState(false);
   const desgn = designs.designs;
@@ -78,8 +81,9 @@ function Design({ designs }) {
       <div className={styles.design}>
         <div className={styles.designTop}>
           <div className={styles.designTopTitle}>
-            <h1>Design</h1>
+            <h1>Designs</h1>
           </div>
+          {session?.user?.role == "admin" && (
           <div className={styles.designTopButton}>
             <Link href="/dashboard/design/new_design">
               <button>
@@ -88,6 +92,7 @@ function Design({ designs }) {
               </button>
             </Link>
           </div>
+          )}
         </div>
         <div className={styles.designBottom}>
           <div className={styles.images}>
@@ -121,35 +126,37 @@ function Design({ designs }) {
                 <div className={styles.imageDescription}>
                   <p>{item.description}</p>
                 </div>
-                {actionsVisible === index1 && (
-                  <div className={styles.actions}>
-                    <Tooltip
-                      title="edit"
-                      position="left"
-                      style={{ fontSize: "1.6rem", backdropFilter: "none" }}
-                    >
-                      <Link href={`/dashboard/design/${item._id}`}>
-                        <i className={styles.edit}>
-                          <MdRebaseEdit />
-                        </i>
-                      </Link>
-                    </Tooltip>
-                    {/**/}
-                    <Tooltip
-                      title="delete"
-                      position="top"
-                      style={{ fontSize: "1.6rem", backdropFilter: "none" }}
-                    >
-                      <i
-                        className={styles.delete}
-                        onClick={() =>
-                          handleDelete(item._id, designPublicId[index1])
-                        }
+                {session?.user?.role == "admin" && (
+                  actionsVisible === index1 && (
+                    <div className={styles.actions}>
+                      <Tooltip
+                        title="edit"
+                        position="left"
+                        style={{ fontSize: "1.6rem", backdropFilter: "none" }}
                       >
-                        <AiFillDelete />
-                      </i>
-                    </Tooltip>
-                  </div>
+                        <Link href={`/dashboard/design/${item._id}`}>
+                          <i className={styles.edit}>
+                            <MdRebaseEdit />
+                          </i>
+                        </Link>
+                      </Tooltip>
+                      {/**/}
+                      <Tooltip
+                        title="delete"
+                        position="top"
+                        style={{ fontSize: "1.6rem", backdropFilter: "none" }}
+                      >
+                        <i
+                          className={styles.delete}
+                          onClick={() =>
+                            handleDelete(item._id, designPublicId[index1])
+                          }
+                        >
+                          <AiFillDelete />
+                        </i>
+                      </Tooltip>
+                    </div>
+                  )
                 )}
               </div>
             ))}

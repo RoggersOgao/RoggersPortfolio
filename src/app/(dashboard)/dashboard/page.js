@@ -43,7 +43,7 @@ import { redirect } from "next/navigation"
 import { SpinnerDiamond } from 'spinners-react'
 import { getServerSession } from "next-auth/next"
 import { options } from "@/app/api/auth/[...nextauth]/options"
-import { fetchGithubUsers, fetchGoogleUsers, fetchUser } from "@/dashboardComponents/contexts/dashHomeContext/DashActions"
+import { fetchDesigns, fetchGithubUsers, fetchGoogleUsers, fetchProjects, fetchUser } from "@/dashboardComponents/contexts/dashHomeContext/DashActions"
 import { Suspense } from "react"
 
 
@@ -56,21 +56,28 @@ export default async function Page() {
   const crUsers =  fetchUser();
   const gbUsers =  fetchGithubUsers();
   const ggUsers =  fetchGoogleUsers();
+  
 
   const [users, gguser, gbuser] = await Promise.all([crUsers, ggUsers, gbUsers])
+
+  const designs = await fetchDesigns()
+  const projects = await fetchProjects()
+
   // console.log(users)
   // console.log(gguser)
   // console.log(gbuser)
 
-  const combinedUsers = [...users.users, ...gguser.user, ...gbuser.user]
+  const combinedUsersForCalendar = [...gguser.user, ...gbuser.user]
+  const combinedUsers = [...users.users]
   const numGoogleUsers = [...gguser.user].length
   const numGithubUsers = [...gbuser.user].length
 
+  
   return session ? (<div>
       <div className={styles.container}>
         <div className={styles.right}>
           <Suspense fallback="loading...">
-          <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers}/>
+          <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers} combinedUsersForCalendar={combinedUsersForCalendar} designs={designs} projects={projects}/>
           </Suspense>
         </div>
       </div>

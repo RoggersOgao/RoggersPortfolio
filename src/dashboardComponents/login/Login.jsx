@@ -9,7 +9,10 @@ import { signIn } from "next-auth/react"
 import { BiLoaderCircle } from 'react-icons/bi'
 import { useRouter } from 'next/navigation'
 import cls from 'classnames'
-
+import Meetup from '../spinners/meetup/Meetup'
+import CircularBar from '../spinners/circularSpinner/CircularBar'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Login() {
     
     const [inputFilled, setInputFilled] = useState({})
@@ -43,6 +46,12 @@ function Login() {
               delete errors.email; // Clear the error if the field is valid
             }
             break;
+            case "name":
+                if(!value){
+                    errors.password = "Password is required";
+                }else{
+                    delete errors.password
+                }
         }
         setFormErrors(errors)
     }
@@ -62,9 +71,28 @@ function Login() {
         console.log(status)
         if(status.error == null){
             router.push(status.url)
+            toast.success("logging in successful! (redirecting...)", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
         }
         else{
-            alert(status.error)
+            toast.error(status.error, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
         }
 
     }
@@ -79,10 +107,11 @@ function Login() {
         setLoading(prevState => ({ ...prevState, githubLoading: false }))
     }
 
-    console.log(form)
-    console.log(formErrors)
+    // console.log(form)
+    // console.log(formErrors)
     return (
         <div className={styles.container}>
+            <ToastContainer style={{ fontSize: "14px", marginTop:"5rem" }} />
             <div className={styles.login}>
                 <div className={styles.loginCont}>
                     <div className={styles.logo}>
@@ -113,13 +142,13 @@ function Login() {
                         </div>
                         <div className={styles.formGroup}>
                             <div className={styles.inputGroup}>
-                                <input type={passwordVisible ? 'text' : 'password'} id="password"  autoComplete="off"  value={form.password || ""} onChange={(e)=>{setField("password",e.target.value)}}/>
+                                <input type={passwordVisible ? 'text' : 'password'} id="password"  autoComplete="off"  value={form.password || ""} onChange={(e)=>{setField("password",e.target.value), validateField("password", e.target.value)}}/>
                                 <FaFingerprint className={cls(styles.icon, styles.iconF)} onClick={()=>setPasswordVisible(!passwordVisible)} />
                             </div>
                         </div>
                         <div className={styles.formGroup}>
                             <div className={styles.button}>
-                                <button type="submit">Access {loading.credentialsLoading ? <BiLoaderCircle /> : ""}</button>
+                                <button type="submit">{loading.credentialsLoading ? <CircularBar   />: "Access"}</button>
                             </div>
                         </div>
                     </form>
@@ -132,10 +161,10 @@ function Login() {
 
                 <div className={styles.otherSignin}>
                     <div className={styles.google}>
-                        <button type="button" onClick={handleGoogleLogin}><FcGoogle className={styles.icon} />Continue with Google {loading.googleLoading ? <BiLoaderCircle /> : ""} </button>
+                        <button type="button" onClick={handleGoogleLogin}><FcGoogle className={styles.icon} />Continue with Google  {loading.googleLoading ? <Meetup /> : ""} </button>
                     </div>
                     <div className={styles.github}>
-                        <button type="button" onClick={handleGithubLogin}><FaGithub className={styles.icon} />Continue with Github  {loading.githubLoading ? <BiLoaderCircle /> : ""}</button>
+                        <button type="button" onClick={handleGithubLogin}><FaGithub className={styles.icon} />Continue with Github  {loading.githubLoading ? <Meetup /> : ""}</button>
                     </div>
                 </div>
             </div>

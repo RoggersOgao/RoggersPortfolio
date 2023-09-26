@@ -12,14 +12,14 @@
         h1{
             font-size:3.4rem;
             font-weight:100;
-            color:var(--text-grey);
+            color:var(--white);
             margin:3rem 0;
         }
         
         .content{
             p{
                 font-size:1.4rem;
-                color:var(--text-grey);
+                color:var(--white);
                 padding:1rem 0;
                 display:flex;
                 align-items:center;
@@ -42,10 +42,13 @@
                 margin-top:5rem;
                 border-top:.3px dashed var(--border-grey);
 
+                a{
+                    padding:3rem 0;
+                }
                 i{
                     font-size:2rem;
                     color:var(--green-color);
-                    padding:3rem 0;
+                    
                 }
             }
 
@@ -62,7 +65,7 @@
                 align-items:center;
                 gap:.7rem;
                 &:hover{
-                    color:white;
+                    color: var(--text-grey);
                 }
                 }
             }

@@ -6,6 +6,10 @@ export const DashReducer = (state, action) => {
         users: action.payload,
         isLoading: true,
       };
+    case "FETCH_SESSION":
+      return{
+        session:action.payload
+      }
     case "ADD_USER":
       return {
         ...state,

@@ -20,11 +20,48 @@ function Footer() {
               <p><BsPhoneFlip />0700601885/0798217927</p>
             </div>
             <div className={styles.icons}>
-                <i><BiLogoLinkedin /></i>
-                <i><BiLogoGithub /></i>
-                <i><BiLogoTwitter /></i>
-                <i><BiLogoFacebook /></i>
-                <i><BiLogoInstagram /></i>
+            <a
+                  href="https://www.linkedin.com/in/roggers-ogao-b35718202/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoLinkedin />
+                  </i>
+
+                </a>
+                <a href="https://github.com/RoggersOgao"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoGithub />
+                  </i>
+                </a>
+                <a href="https://twitter.com/RoggersOgao"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoTwitter />
+                  </i>
+                </a>
+                <a href="https://facebook.com/RoggersOgao"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i>
+                    <BiLogoFacebook />
+                  </i>
+                </a>
+
+                <a
+                  href="https://www.instagram.com/roggers_ogao/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                ><i>
+                    <BiLogoInstagram />
+                  </i></a>
             </div>
           </div>
           <div className={styles.footerMiddle}>

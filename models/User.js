@@ -21,7 +21,7 @@ const socialSchema = new mongoose.Schema({
 const personalSchema = new mongoose.Schema({
   location: {
     type: String,
-    maxLength:60
+    maxLength:60,
   },
   company: {
     type: String,
@@ -32,12 +32,12 @@ const personalSchema = new mongoose.Schema({
     maxLength: 600,
   },
 });
+
 const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      minLength: 4,
       maxLength: 60,
     },
     email: {
@@ -47,20 +47,13 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       match: /^\S+@\S+\.\S+$/,
     },
-    password: {
-      type: String,
-      minlength: 8,
-      maxlength: 100,
-    },
     image: {
       type: String,
-      default: "https://res.cloudinary.com/dhk9gwc4q/image/upload/v1690988668/samples/animals/three-dogs.jpg",
     },
     socials: [socialSchema],
-    personalInfo:[personalSchema],
+    personalInfo: [personalSchema],
     role: {
       type: String,
-      default: "user",
     },
   },
   { timestamps: true }

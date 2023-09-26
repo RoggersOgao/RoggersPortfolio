@@ -17,11 +17,13 @@ import { PiSpinnerLight } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GiConsoleController } from "react-icons/gi";
-
+import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
+import { useSession } from "next-auth/react";
 const animatedComponents = makeAnimated();
 
 function EditProjectForm({ projectData }) {
   const [form, setForm] = useState({});
+  const { data: session } = useSession()
   const [files, setFiles] = useState([]);
   const [displayFiles, setDisplayFiles] = useState([]);
   const [formErrors, setFormErrors] = useState({});
@@ -184,7 +186,7 @@ function EditProjectForm({ projectData }) {
     }
   };
 
-  return (
+  return session ?(
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         Pro
@@ -364,13 +366,15 @@ function EditProjectForm({ projectData }) {
           <div className={styles.formGroup}>
             <div className={styles.btnGroup}>
               <button type="submit">
-                {isLoading ? <PiSpinnerLight /> : "Publish Edited Post"}
+                {isLoading ? <CircularBar /> : "Edit Post"}
               </button>
             </div>
           </div>
         </form>
       </div>
     </div>
+  ) : (
+    <p>You are not allowed to Perform any operation in this page</p>
   );
 }
 

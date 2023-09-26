@@ -12,13 +12,14 @@ import { deleteProject } from "@/dashboardComponents/contexts/projectContext/pro
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProjectContext from "@/dashboardComponents/contexts/projectContext/ProjectContext";
-
+import { useSession } from "next-auth/react";
 import {
   AddSingleProject,
   toogleProjectPhoto,
 } from "@/dashboardComponents/contexts/projectContext/dispatchActions";
 
 function Card({ project, id }) {
+  const { data: session } = useSession();
   const { state, dispatch } = useContext(ProjectContext);
   const coverPhoto = project.coverPhoto.map((item) => item.secure_url);
   const coverPhotoPublicId = project.coverPhoto.map((item) => item.public_id);
@@ -30,6 +31,30 @@ function Card({ project, id }) {
   // console.log(projectPhoto)
   // console.log(projectPhotoPublicId[0])
   const router = useRouter();
+  const mongoTimestamp = new Date(project.createdAt); // Replace with your actual timestamp
+
+  // Define an array of short month names
+  const shortMonthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Extract the month and year from the timestamp
+  const monthIndex = mongoTimestamp.getMonth(); // Returns a number from 0 (January) to 11 (December)
+  const year = mongoTimestamp.getFullYear();
+
+  // Get the short month name
+  const shortMonth = shortMonthNames[monthIndex];
 
   const handleDelete = async (id, coverId, projectId) => {
     const userConfirmed = window.confirm(
@@ -96,30 +121,32 @@ function Card({ project, id }) {
         <div className={styles.cardBottom}>
           <div className={styles.titleArea}>
             <p className={styles.title}>Code Quest</p>
-            <div className={styles.actions}>
-              <Link href={`/dashboard/projects/${project._id}`}>
-                <i className={styles.edit}>
-                  <MdRebaseEdit />
+            {session?.user.role == "admin" && (
+              <div className={styles.actions}>
+                <Link href={`/dashboard/projects/${project._id}`}>
+                  <i className={styles.edit}>
+                    <MdRebaseEdit />
+                  </i>
+                </Link>
+                {/**/}
+                <i
+                  className={styles.delete}
+                  onClick={() =>
+                    handleDelete(
+                      project._id,
+                      coverPhotoPublicId[0],
+                      projectPhotoPublicId[0]
+                    )
+                  }
+                >
+                  <AiFillDelete />
                 </i>
-              </Link>
-              {/**/}
-              <i
-                className={styles.delete}
-                onClick={() =>
-                  handleDelete(
-                    project._id,
-                    coverPhotoPublicId[0],
-                    projectPhotoPublicId[0]
-                  )
-                }
-              >
-                <AiFillDelete />
-              </i>
-            </div>
+              </div>
+            )}
           </div>
           <div className={styles.dateGroup}>
             <p>
-              Jan <span className={styles.year}>2023</span>
+              {shortMonth} <span className={styles.year}>{year}</span>
             </p>
             <span className={styles.line}></span>
           </div>

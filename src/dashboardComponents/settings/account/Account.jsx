@@ -10,7 +10,7 @@ import Profile from "./profileSettings/Profile";
 import Password from "./password/Password";
 import Manage from "./managePortfolio/Manage";
 
-function Account() {
+function Account({ session }) {
   const [activeItem, setActiveItem] = useState("profile"); // Set the default active item
 
   const handleItemClick = (item) => {
@@ -36,34 +36,38 @@ function Account() {
               >
                 <AiOutlineUser className={styles.icon} /> Profile Settings
               </li>
-              <li
-                className={
-                  activeItem === "password"
-                    ? cls(styles.activeNavItem, styles.navItem)
-                    : styles.navItem
-                }
-                onClick={() => handleItemClick("password")}
-              >
-                <PiPasswordThin className={styles.icon} /> Password
-              </li>
-              <li
-                className={
-                  activeItem === "portfolio"
-                    ? cls(styles.activeNavItem, styles.navItem)
-                    : styles.navItem
-                }
-                onClick={() => handleItemClick("portfolio")}
-              >
-                <MdOutlineManageHistory className={styles.icon} /> Manage
-                Portfolio
-              </li>
+              {session?.user.role == "admin" && (
+                <>
+                  <li
+                    className={
+                      activeItem === "password"
+                        ? cls(styles.activeNavItem, styles.navItem)
+                        : styles.navItem
+                    }
+                    onClick={() => handleItemClick("password")}
+                  >
+                    <PiPasswordThin className={styles.icon} /> Password
+                  </li>
+                  <li
+                    className={
+                      activeItem === "portfolio"
+                        ? cls(styles.activeNavItem, styles.navItem)
+                        : styles.navItem
+                    }
+                    onClick={() => handleItemClick("portfolio")}
+                  >
+                    <MdOutlineManageHistory className={styles.icon} /> Manage
+                    Portfolio
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
         <div className={styles.accountRight}>
-          {activeItem === "profile" && <Profile />}
-          {activeItem === "password" && <Password />}
-          {activeItem === "portfolio" && <Manage />}
+          {activeItem === "profile" && <Profile session={session} />}
+          {activeItem === "password" && <Password session={session} />}
+          {activeItem === "portfolio" && <Manage session={session} />}
         </div>
       </div>
     </div>
