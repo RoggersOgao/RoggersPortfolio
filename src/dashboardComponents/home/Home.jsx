@@ -64,7 +64,7 @@ function Home({
 
   // handle logout
   const handleLogout = async () => {
-    await signOut("google", { callbackUrl: "https://roggers-portfolio.vercel.app/login" });
+    await signOut("google", { callbackUrl: "https://roggers-portfolio-git-main-roggersogao.vercel.app/login" });
   };
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);

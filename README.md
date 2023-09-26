@@ -12,7 +12,7 @@ yarn dev
 pnpm dev
 ```
 
-Open [https://roggers-portfolio.vercel.app](https://roggers-portfolio.vercel.app) with your browser to see the result.
+Open [https://roggers-portfolio-git-main-roggersogao.vercel.app](https://roggers-portfolio-git-main-roggersogao.vercel.app) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
